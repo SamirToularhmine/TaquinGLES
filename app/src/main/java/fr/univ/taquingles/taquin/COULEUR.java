@@ -1,5 +1,5 @@
 package fr.univ.taquingles.taquin;
 
 public enum COULEUR {
-    ROUGE, VERT, BLEU, JAUNE, RIEN
+    ROUGE, VERT, BLEU, JAUNE
 }

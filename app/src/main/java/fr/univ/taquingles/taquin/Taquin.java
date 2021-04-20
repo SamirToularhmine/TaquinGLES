@@ -6,7 +6,8 @@ package fr.univ.taquingles.taquin;
  */
 public class Taquin {
     private Objet[][] tableau; // est le tableau du taquin
-    private Objet vide; // contient la case vide
+    private int xVide;
+    private int yVide;
     private int n; // la taille de la premiere dimmension
     private int m; // la taille de la derniere dimmension
 
@@ -14,7 +15,6 @@ public class Taquin {
         this.n = n;
         this.m = m;
         this.tableau = new Objet[n][m];
-        this.vide = null;
     }
 
     /**
@@ -31,8 +31,9 @@ public class Taquin {
 
         tableau[0][2] = new Objet(0, 2, COULEUR.ROUGE, FORME.CERCLE);
         tableau[1][2] = new Objet(1, 2, COULEUR.VERT, FORME.CERCLE);
-        tableau[2][2] = new Objet(2, 2, COULEUR.RIEN, FORME.RIEN);
-        this.vide = tableau[2][2];
+        tableau[2][2] = null;
+        xVide = 2;
+        yVide = 2;
     }
 
     /**
@@ -57,8 +58,9 @@ public class Taquin {
         tableau[0][3] = new Objet(0, 3, COULEUR.ROUGE, FORME.LOSANGE);
         tableau[1][3] = new Objet(1, 3, COULEUR.VERT, FORME.LOSANGE);
         tableau[2][3] = new Objet(2, 3, COULEUR.BLEU, FORME.LOSANGE);
-        tableau[3][3] = new Objet(3, 3, COULEUR.RIEN, FORME.RIEN);
-        this.vide = tableau[3][3];
+        tableau[3][3] = null;
+        xVide = 3;
+        yVide = 3;
     }
 
     /**
@@ -92,7 +94,7 @@ public class Taquin {
     public boolean isFinished(){
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < m - 1; j++) {
-                if (!this.tableau[i][j].isPlaceCorrecte())
+                if (this.tableau[i][j] != null && !this.tableau[i][j].isPlaceCorrecte())
                     return false;
             }
         }
@@ -104,14 +106,14 @@ public class Taquin {
      * @return false si le déplacement n'est pas possible
      */
     public boolean bougerVideHaut(){
-        if (this.vide.getX() == 0){
+        if (this.xVide == 0){
             return false;
         }
-        Objet dessus = tableau[vide.getX() - 1][vide.getY()];
+        Objet dessus = tableau[xVide - 1][yVide];
         dessus.setX(dessus.getX() + 1);
-        vide.setX(vide.getX() - 1);
+        xVide--;
         tableau[dessus.getX()][dessus.getY()] = dessus;
-        tableau[vide.getX()][vide.getY()] = vide;
+        tableau[xVide][yVide] = null;
         return true;
     }
 
@@ -120,14 +122,14 @@ public class Taquin {
      * @return false si le déplacement n'est pas possible
      */
     public boolean bougerVideBas(){
-        if (this.vide.getX() == n - 1){
+        if (xVide == n - 1){
             return false;
         }
-        Objet dessus = tableau[vide.getX() + 1][vide.getY()];
+        Objet dessus = tableau[xVide + 1][yVide];
         dessus.setX(dessus.getX() - 1);
-        vide.setX(vide.getX() + 1);
+        xVide++;
         tableau[dessus.getX()][dessus.getY()] = dessus;
-        tableau[vide.getX()][vide.getY()] = vide;
+        tableau[xVide][yVide] = null;
         return true;
     }
 
@@ -136,14 +138,14 @@ public class Taquin {
      * @return false si le déplacement n'est pas possible
      */
     public boolean bougerVideDroite(){
-        if (this.vide.getY() == m - 1){
+        if (yVide == m - 1){
             return false;
         }
-        Objet dessus = tableau[vide.getX()][vide.getY() + 1];
+        Objet dessus = tableau[xVide][yVide + 1];
         dessus.setY(dessus.getY() - 1);
-        vide.setY(vide.getY() + 1);
+        yVide++;
         tableau[dessus.getX()][dessus.getY()] = dessus;
-        tableau[vide.getX()][vide.getY()] = vide;
+        tableau[xVide][yVide] = null;
         return true;
     }
 
@@ -152,14 +154,14 @@ public class Taquin {
      * @return false si le déplacement n'est pas possible
      */
     public boolean bougerVideGauche(){
-        if (this.vide.getY() == 0){
+        if (yVide == 0){
             return false;
         }
-        Objet dessus = tableau[vide.getX()][vide.getY() - 1];
+        Objet dessus = tableau[xVide][yVide - 1];
         dessus.setY(dessus.getY() + 1);
-        vide.setY(vide.getY() - 1);
+        yVide--;
         tableau[dessus.getX()][dessus.getY()] = dessus;
-        tableau[vide.getX()][vide.getY()] = vide;
+        tableau[xVide][yVide] = null;
         return true;
     }
 
