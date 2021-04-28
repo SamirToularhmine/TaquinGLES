@@ -78,7 +78,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         /* accès aux paramètres du rendu (cf MyGLRenderer.java)
         soit la position courante du centre du carré
          */
-        float[] pos = mRenderer.getPosition();
+        //float[] pos = mRenderer.getPosition();
+        float[] pos = new float[]{0, 0};
 
         /* Conversion des coordonnées pixel en coordonnées OpenGL
         Attention l'axe x est inversé par rapport à OpenGLSL
@@ -110,7 +111,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
                     condition=true;
                     break;
                 case MotionEvent.ACTION_UP:
-                   mRenderer.setPosition(0.0f,-9.0f);
+                    mRenderer.setPosition(0.0f,-9.0f);
                     requestRender(); // équivalent de glutPostRedisplay pour lancer le dessin avec les modifications.
                     condition=false;
 
