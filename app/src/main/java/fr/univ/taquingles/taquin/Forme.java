@@ -1,5 +1,5 @@
 package fr.univ.taquingles.taquin;
 
 public enum Forme {
-    CARRE, TRIANGLE, CERCLE, RIEN
+    CARRE, TRIANGLE, CERCLE, LOSANGE
 }
