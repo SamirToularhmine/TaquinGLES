@@ -164,10 +164,14 @@ public class RendererManager {
                 GLES30.GL_FLOAT, false,
                 this.vertexStride, this.verticesBuffer);
 
+        int cap = this.formes.get(p.first).getVertices().length;
+        float[] couleursTab  = p.second.getCouleur().getCouleurArray(cap);
+        FloatBuffer buffer  = p.second.getCouleur().getCouleurBuffer(cap);
+
         GLES30.glVertexAttribPointer(
                 this.idColors, COULEURS_PER_VERTEX,
                 GLES30.GL_FLOAT, false,
-                this.couleurStride, p.second.getCouleur().getCouleurBuffer(this.formesIndices.get(p.first).capacity()));
+                this.couleurStride, buffer);
 
         IntBuffer ib = this.formesIndices.get(p.first);
 
@@ -175,7 +179,6 @@ public class RendererManager {
         GLES30.glDrawElements(
                 GLES30.GL_TRIANGLES, ib.capacity(),
                 GLES30.GL_UNSIGNED_INT, ib);
-
 
         // Disable vertex array
         GLES30.glDisableVertexAttribArray(this.idVertices);

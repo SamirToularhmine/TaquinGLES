@@ -21,6 +21,8 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import fr.univ.taquingles.taquin.Taquin;
+
 /* La classe MyGLSurfaceView avec en particulier la gestion des événements
   et la création de l'objet renderer
 
@@ -45,6 +47,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         // Création du renderer qui va être lié au conteneur View créé
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
+
+        this.mRenderer.init(new Taquin(4, 4));
 
         // Option pour indiquer qu'on redessine uniquement si les données changent
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);

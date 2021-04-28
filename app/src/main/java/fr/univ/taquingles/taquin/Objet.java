@@ -9,15 +9,15 @@ public class Objet {
     private int y;
     private int initialX;
     private int initialY;
-    private COULEUR couleur;
-    private FORME forme;
+    private Couleur Couleur;
+    private Forme forme;
 
-    public Objet(int x, int y, COULEUR couleur, FORME forme) {
+    public Objet(int x, int y, Couleur Couleur, Forme forme) {
         this.x = x;
         this.y = y;
         this.initialX = x;
         this.initialY = y;
-        this.couleur = couleur;
+        this.Couleur = Couleur;
         this.forme = forme;
     }
 
@@ -37,11 +37,11 @@ public class Objet {
         this.y = y;
     }
 
-    public COULEUR getCouleur() {
-        return couleur;
+    public Couleur getCouleur() {
+        return Couleur;
     }
 
-    public FORME getForme() {
+    public Forme getForme() {
         return forme;
     }
 

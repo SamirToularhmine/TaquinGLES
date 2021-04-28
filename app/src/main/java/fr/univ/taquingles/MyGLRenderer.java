@@ -33,6 +33,8 @@ import java.util.List;
 
 import fr.univ.taquingles.taquin.Couleur;
 import fr.univ.taquingles.taquin.Forme;
+import fr.univ.taquingles.taquin.Objet;
+import fr.univ.taquingles.taquin.Taquin;
 
 import static javax.microedition.khronos.opengles.GL11.GL_VIEWPORT;
 
@@ -44,6 +46,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private RendererManager rendererManager;
     private List<Pair<Forme, FormeParam>> drawQueue;
+    private Taquin taquin;
 
     // Les matrices habituelles Model/View/Projection
     private final float[] mMVPMatrix = new float[16];
@@ -56,6 +59,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.drawQueue = new ArrayList<>();
     }
 
+    public void init(Taquin taquin){
+        this.taquin = taquin;
+    }
 
     /* Première méthode équivalente à la fonction init en OpenGLSL */
     @Override
@@ -67,31 +73,28 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // On ajoute les différentes formes disponibles
         this.rendererManager.nouvelleForme(Forme.TRIANGLE, new Triangle());
         this.rendererManager.nouvelleForme(Forme.CARRE, new Square());
+        this.rendererManager.nouvelleForme(Forme.LOSANGE, new Losange());
+        this.rendererManager.nouvelleForme(Forme.ETOILE, new Etoile());
 
         /* On initialise le renderer manager avec toutes les formes qu'il contient */
         this.rendererManager.init();
 
         /* On crée notre draw queue */
 
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{1.25f, 12.5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.VERT)));
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{3.75f, 12.5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.JAUNE)));
-        this.drawQueue.add(Pair.create(Forme.TRIANGLE, new FormeParam(new float[]{6.25f, 12.5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.BLEU)));
-        this.drawQueue.add(Pair.create(Forme.TRIANGLE, new FormeParam(new float[]{8.75f, 12.5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.ROUGE)));
 
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{1.25f, 10, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.VERT)));
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{3.75f, 10, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.JAUNE)));
-        this.drawQueue.add(Pair.create(Forme.TRIANGLE, new FormeParam(new float[]{6.25f, 10, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.BLEU)));
-        this.drawQueue.add(Pair.create(Forme.TRIANGLE, new FormeParam(new float[]{8.75f, 10f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.ROUGE)));
+        this.taquin.initialiser44();
+        this.taquin.initailShuffle();
 
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{1.25f, 7.5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.VERT)));
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{3.75f, 7.5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.JAUNE)));
-        this.drawQueue.add(Pair.create(Forme.TRIANGLE, new FormeParam(new float[]{6.25f, 7.5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.BLEU)));
-        
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{1.25f, 5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.VERT)));
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{3.75f, 5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.JAUNE)));
-        this.drawQueue.add(Pair.create(Forme.TRIANGLE, new FormeParam(new float[]{6.25f, 5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.BLEU)));
-        this.drawQueue.add(Pair.create(Forme.TRIANGLE, new FormeParam(new float[]{8.75f, 5f, 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, Couleur.ROUGE)));
+        Objet[][] objets = this.taquin.getTableau();
 
+        for(int i = 0; i < objets.length; i++){
+            for(int j = 0; j < objets[0].length; j++){
+                Objet o = objets[i][j];
+                if(o != null){
+                    this.drawQueue.add(Pair.create(o.getForme(), new FormeParam(new float[]{1.25f + (2.5f * j), 12.5f - (2.5f * i), 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, o.getCouleur())));
+                }
+            }
+        }
     }
 
     /* Deuxième méthode équivalente à la fonction Display */

@@ -9,6 +9,8 @@ import android.opengl.GLSurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 
+import fr.univ.taquingles.taquin.Taquin;
+
 /* Ce tutorial est issu d'un tutorial http://developer.android.com/training/graphics/opengl/index.html :
 openGLES.zip HelloOpenGLES20
  */
@@ -34,6 +36,7 @@ public class OpenGLES20Activity extends Activity {
 
 
         mGLView = new MyGLSurfaceView(this);
+
         /* Définition de View pour cette activité */
         setContentView(mGLView);
     }
