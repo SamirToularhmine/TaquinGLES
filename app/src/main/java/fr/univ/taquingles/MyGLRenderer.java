@@ -72,8 +72,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         // On ajoute les différentes formes disponibles
-        this.rendererManager.nouvelleForme(Forme.TRIANGLE, new Triangle());
         this.rendererManager.nouvelleForme(Forme.CARRE, new Square());
+        this.rendererManager.nouvelleForme(Forme.TRIANGLE, new Triangle());
         this.rendererManager.nouvelleForme(Forme.LOSANGE, new Losange());
         this.rendererManager.nouvelleForme(Forme.ETOILE, new Etoile());
 
@@ -83,7 +83,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         /* On crée notre draw queue */
 
 
-        this.taquin.initialiser33();
+        this.taquin.initialiser44();
+        this.taquin.initailShuffle();
 
         Objet[][] objets = this.taquin.getTableau();
 
@@ -122,8 +123,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         for(Pair<Forme, FormeParam> p : this.drawQueue){
             Matrix.setIdentityM(scratch, 0);
 
-            Log.d("Renderer", "mSquarex"+Float.toString(0));
-            Log.d("Renderer", "mSquarey"+Float.toString(0));
+            Log.d("Renderer : ", p.first.name() + " -> Couleur : " + p.second.getCouleur().name());
 
             /* scratch est la matrice PxVxM finale */
             Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, p.second.getModelMatrix(), 0);

@@ -82,7 +82,7 @@ public class RendererManager {
     }
 
     public void nouvelleForme(Forme forme, AForme donnees){
-        this.formes.putIfAbsent(forme, donnees);
+        this.formes.put(forme, donnees);
     }
 
     public void init(){
@@ -97,7 +97,8 @@ public class RendererManager {
             ByteBuffer bb = ByteBuffer.allocateDirect(indices.length * 4);
             bb.order(ByteOrder.nativeOrder());
             IntBuffer ib = bb.asIntBuffer();
-            ib.put(Arrays.stream(indices).map(e -> e + (verticesList.size() / COORDS_PER_VERTEX)).toArray());
+            indices = Arrays.stream(indices).map(e -> e + (verticesList.size() / COORDS_PER_VERTEX)).toArray();
+            ib.put(indices);
             ib.flip();
 
             this.formesIndices.put(entry.getKey(), ib);
@@ -161,14 +162,13 @@ public class RendererManager {
                 GLES30.GL_FLOAT, false,
                 this.vertexStride, this.verticesBuffer);
 
-        int cap = this.formes.get(p.first).getVertices().length;
-        float[] couleursTab  = p.second.getCouleur().getCouleurArray(cap);
-        FloatBuffer buffer  = p.second.getCouleur().getCouleurBuffer(cap);
+        int cap = this.verticesArray.length;
 
         GLES30.glVertexAttribPointer(
                 this.idColors, COULEURS_PER_VERTEX,
                 GLES30.GL_FLOAT, false,
-                this.couleurStride, buffer);
+                this.couleurStride, p.second.getCouleur().getCouleurBuffer(cap));
+
 
         IntBuffer ib = this.formesIndices.get(p.first);
 
