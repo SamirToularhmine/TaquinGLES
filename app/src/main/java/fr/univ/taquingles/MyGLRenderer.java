@@ -19,6 +19,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -82,8 +83,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         /* On crée notre draw queue */
 
 
-        this.taquin.initialiser44();
-        this.taquin.initailShuffle();
+        this.taquin.initialiser33();
 
         Objet[][] objets = this.taquin.getTableau();
 

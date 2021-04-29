@@ -50,10 +50,10 @@ public class Taquin {
         tableau[2][1] = new Objet(2, 1, Couleur.JAUNE, Forme.TRIANGLE);
         tableau[3][1] = new Objet(3, 1, Couleur.BLEU, Forme.TRIANGLE);
 
-        tableau[0][2] = new Objet(0, 2, Couleur.ROUGE, Forme.TRIANGLE);
-        tableau[1][2] = new Objet(1, 2, Couleur.VERT, Forme.TRIANGLE);
-        tableau[2][2] = new Objet(2, 2, Couleur.JAUNE, Forme.TRIANGLE);
-        tableau[3][2] = new Objet(3, 2, Couleur.BLEU, Forme.TRIANGLE);
+        tableau[0][2] = new Objet(0, 2, Couleur.ROUGE, Forme.ETOILE);
+        tableau[1][2] = new Objet(1, 2, Couleur.VERT, Forme.ETOILE);
+        tableau[2][2] = new Objet(2, 2, Couleur.JAUNE, Forme.ETOILE);
+        tableau[3][2] = new Objet(3, 2, Couleur.BLEU, Forme.ETOILE);
 
         tableau[0][3] = new Objet(0, 3, Couleur.ROUGE, Forme.LOSANGE);
         tableau[1][3] = new Objet(1, 3, Couleur.VERT, Forme.LOSANGE);

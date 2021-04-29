@@ -26,9 +26,7 @@ public class RendererManager {
             "in vec3 vPosition;\n" +
             "in vec4 vCouleur;\n"+
             "out vec4 Couleur;\n"+
-            "out vec3 Position;\n"+
             "void main() {\n" +
-            "Position = vPosition;\n"+
             "gl_Position = uMVPMatrix * vec4(vPosition,1.0);\n" +
             "Couleur = vCouleur;\n"+
             "}\n";
@@ -37,16 +35,15 @@ public class RendererManager {
             "#version 300 es\n"+
             "precision mediump float;\n" + // pour définir la taille d'un float
             "in vec4 Couleur;\n"+
-            "in vec3 Position;\n"+
             "out vec4 fragColor;\n"+
             "void main() {\n" +
-            "float x = Position.x;\n"+
-            "float y = Position.y;\n"+
             "fragColor = Couleur;\n" +
             "}\n";
 
     private int[] linkStatus = {0};
     private int idProgram;
+    private int idVertexShader;
+    private int idFragmentShader;
 
     private static RendererManager sInstance;
     private Map<Forme, AForme> formes;
@@ -126,16 +123,16 @@ public class RendererManager {
         this.verticesBuffer.flip();
 
         /* Chargement des shaders */
-        int vertexShader = MyGLRenderer.loadShader(
+        this.idVertexShader = MyGLRenderer.loadShader(
                 GLES30.GL_VERTEX_SHADER,
                 vertexShaderCode);
-        int fragmentShader = MyGLRenderer.loadShader(
+        this.idFragmentShader = MyGLRenderer.loadShader(
                 GLES30.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
 
         this.idProgram = GLES30.glCreateProgram();           // create empty OpenGL Program
-        GLES30.glAttachShader(idProgram, vertexShader);     // add the vertex shader to program
-        GLES30.glAttachShader(idProgram, fragmentShader);   // add the fragment shader to program
+        GLES30.glAttachShader(idProgram, this.idVertexShader);     // add the vertex shader to program
+        GLES30.glAttachShader(idProgram, this.idFragmentShader);   // add the fragment shader to program
         GLES30.glLinkProgram(idProgram);                    // create OpenGL program executables
         GLES30.glGetProgramiv(idProgram, GLES30.GL_LINK_STATUS, linkStatus,0);
     }
