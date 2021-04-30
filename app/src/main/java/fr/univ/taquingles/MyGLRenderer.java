@@ -83,7 +83,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         /* On crée notre draw queue */
 
 
-        this.taquin.initialiser44();
         this.taquin.initailShuffle();
 
         Objet[][] objets = this.taquin.getTableau();

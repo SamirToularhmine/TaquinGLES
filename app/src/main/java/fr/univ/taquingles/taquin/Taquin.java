@@ -1,6 +1,8 @@
 package fr.univ.taquingles.taquin;
 
 
+import android.util.Log;
+
 /**
  * Classe pour la gestion du taquin
  */
@@ -8,19 +10,22 @@ public class Taquin {
     private Objet[][] tableau; // est le tableau du taquin
     private int xVide;
     private int yVide;
-    private int n; // la taille de la premiere dimmension
-    private int m; // la taille de la derniere dimmension
 
-    public Taquin(int n, int m) {
-        this.n = n;
-        this.m = m;
-        this.tableau = new Objet[n][m];
+
+    public Taquin(int taille) {
+        if (taille==3)
+            this.initialiser33();
+        else if (taille == 4)
+            this.initialiser44();
+        else
+            this.initialiser55();
     }
 
     /**
      * Méthode qui crée un taquin soluble 3 * 3
      */
-    public void initialiser33(){
+    private void initialiser33(){
+        this.tableau = new Objet[3][3];
         tableau[0][0] = new Objet(0, 0, Couleur.ROUGE, Forme.CARRE);
         tableau[1][0] = new Objet(1, 0, Couleur.VERT, Forme.CARRE);
         tableau[2][0] = new Objet(2, 0, Couleur.JAUNE, Forme.CARRE);
@@ -39,7 +44,8 @@ public class Taquin {
     /**
      * Méthode qui crée un taquin soluble 4 * 4
      */
-    public void initialiser44(){
+    private void initialiser44(){
+        this.tableau = new Objet[4][4];
         tableau[0][0] = new Objet(0, 0, Couleur.ROUGE, Forme.CARRE);
         tableau[1][0] = new Objet(1, 0, Couleur.VERT, Forme.CARRE);
         tableau[2][0] = new Objet(2, 0, Couleur.JAUNE, Forme.CARRE);
@@ -57,10 +63,49 @@ public class Taquin {
 
         tableau[0][3] = new Objet(0, 3, Couleur.ROUGE, Forme.LOSANGE);
         tableau[1][3] = new Objet(1, 3, Couleur.VERT, Forme.LOSANGE);
-        tableau[2][3] = new Objet(2, 3, Couleur.BLEU, Forme.LOSANGE);
+        tableau[2][3] = new Objet(2, 3, Couleur.JAUNE, Forme.LOSANGE);
         tableau[3][3] = null;
         xVide = 3;
         yVide = 3;
+    }
+
+    /**
+     * Méthode qui crée un taquin soluble 5 * 5
+     */
+    private void initialiser55(){
+        this.tableau = new Objet[5][5];
+        tableau[0][0] = new Objet(0, 0, Couleur.ROUGE, Forme.CARRE);
+        tableau[1][0] = new Objet(1, 0, Couleur.VERT, Forme.CARRE);
+        tableau[2][0] = new Objet(2, 0, Couleur.JAUNE, Forme.CARRE);
+        tableau[3][0] = new Objet(3, 0, Couleur.BLEU, Forme.CARRE);
+        tableau[4][0] = new Objet(4, 0, Couleur.ROSE, Forme.CARRE);
+
+        tableau[0][1] = new Objet(0, 1, Couleur.ROUGE, Forme.TRIANGLE);
+        tableau[1][1] = new Objet(1, 1, Couleur.VERT, Forme.TRIANGLE);
+        tableau[2][1] = new Objet(2, 1, Couleur.JAUNE, Forme.TRIANGLE);
+        tableau[3][1] = new Objet(3, 1, Couleur.BLEU, Forme.TRIANGLE);
+        tableau[4][1] = new Objet(4, 1, Couleur.ROSE, Forme.TRIANGLE);
+
+        tableau[0][2] = new Objet(0, 2, Couleur.ROUGE, Forme.ETOILE);
+        tableau[1][2] = new Objet(1, 2, Couleur.VERT, Forme.ETOILE);
+        tableau[2][2] = new Objet(2, 2, Couleur.JAUNE, Forme.ETOILE);
+        tableau[3][2] = new Objet(3, 2, Couleur.BLEU, Forme.ETOILE);
+        tableau[4][2] = new Objet(4, 2, Couleur.ROSE, Forme.ETOILE);
+
+        tableau[0][3] = new Objet(0, 3, Couleur.ROUGE, Forme.LOSANGE);
+        tableau[1][3] = new Objet(1, 3, Couleur.VERT, Forme.LOSANGE);
+        tableau[2][3] = new Objet(2, 3, Couleur.JAUNE, Forme.LOSANGE);
+        tableau[3][3] = new Objet(3, 3, Couleur.BLEU, Forme.LOSANGE);
+        tableau[4][3] = new Objet(4, 3, Couleur.ROSE, Forme.LOSANGE);
+
+        tableau[0][4] = new Objet(0, 4, Couleur.ROUGE, Forme.PENTAGONE);
+        tableau[1][4] = new Objet(1, 4, Couleur.VERT, Forme.PENTAGONE);
+        tableau[2][4] = new Objet(2, 4, Couleur.JAUNE, Forme.PENTAGONE);
+        tableau[3][4] = new Objet(3, 4, Couleur.BLEU, Forme.PENTAGONE);
+        tableau[4][4] = null;
+
+        xVide = 4;
+        yVide = 4;
     }
 
     /**
@@ -92,8 +137,8 @@ public class Taquin {
      * @return true le taquin est finit
      */
     public boolean isFinished(){
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < m - 1; j++) {
+        for (int i = 0; i < tableau.length - 1; i++) {
+            for (int j = 0; j < tableau[i].length - 1; j++) {
                 if (this.tableau[i][j] != null && !this.tableau[i][j].isPlaceCorrecte())
                     return false;
             }
@@ -122,13 +167,13 @@ public class Taquin {
      * @return false si le déplacement n'est pas possible
      */
     public boolean bougerVideBas(){
-        if (xVide == n - 1){
+        if (xVide == tableau.length - 1){
             return false;
         }
-        Objet dessus = tableau[xVide + 1][yVide];
-        dessus.setX(dessus.getX() - 1);
+        Objet dessous = tableau[xVide + 1][yVide];
+        dessous.setX(dessous.getX() - 1);
         xVide++;
-        tableau[dessus.getX()][dessus.getY()] = dessus;
+        tableau[dessous.getX()][dessous.getY()] = dessous;
         tableau[xVide][yVide] = null;
         return true;
     }
@@ -138,13 +183,13 @@ public class Taquin {
      * @return false si le déplacement n'est pas possible
      */
     public boolean bougerVideDroite(){
-        if (yVide == m - 1){
+        if (yVide == tableau[0].length - 1){
             return false;
         }
-        Objet dessus = tableau[xVide][yVide + 1];
-        dessus.setY(dessus.getY() - 1);
+        Objet droite = tableau[xVide][yVide + 1];
+        droite.setY(droite.getY() - 1);
         yVide++;
-        tableau[dessus.getX()][dessus.getY()] = dessus;
+        tableau[droite.getX()][droite.getY()] = droite;
         tableau[xVide][yVide] = null;
         return true;
     }
@@ -157,10 +202,10 @@ public class Taquin {
         if (yVide == 0){
             return false;
         }
-        Objet dessus = tableau[xVide][yVide - 1];
-        dessus.setY(dessus.getY() + 1);
+        Objet gauche = tableau[xVide][yVide - 1];
+        gauche.setY(gauche.getY() + 1);
         yVide--;
-        tableau[dessus.getX()][dessus.getY()] = dessus;
+        tableau[gauche.getX()][gauche.getY()] = gauche;
         tableau[xVide][yVide] = null;
         return true;
     }
