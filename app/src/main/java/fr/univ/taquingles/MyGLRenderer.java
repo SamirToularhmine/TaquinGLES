@@ -164,9 +164,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 
     /* Les méthodes nécessaires à la manipulation de la position finale du carré */
-   public void setPosition(float x, float y) {
-        /*mSquarePosition[0] += x;
-        mSquarePosition[1] += y;*/
+   public void checkAndSetPosition(float x, float y) {
+        for(Pair<Forme, FormeParam> p : this.drawQueue){
+            float[] position = p.second.getPosition();
+            if(((x < position[0] + 1.0f) && (x > position[0] - 1.0f) && (y < position[1] + 1.0f) && (y > position[1] - 1.0f))){
+                System.out.println(p.first.name() + x + " " + y);
+            }
+        }
     }
 
     /*public float[] getPosition() {
