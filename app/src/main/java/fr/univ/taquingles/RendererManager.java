@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.univ.taquingles.formes.AForme;
+import fr.univ.taquingles.formes.FormeParam;
 import fr.univ.taquingles.taquin.Forme;
 
 /**
@@ -104,8 +106,8 @@ public class RendererManager {
             this.formesIndices.put(entry.getKey(), ib);
 
             // Ajout dans le vertices buffer
-            for(int i = 0; i < vertices.length; i++){
-                verticesList.add(vertices[i]);
+            for (float vertex : vertices) {
+                verticesList.add(vertex);
             }
         }
 

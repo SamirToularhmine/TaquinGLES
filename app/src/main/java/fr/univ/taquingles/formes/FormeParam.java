@@ -1,4 +1,4 @@
-package fr.univ.taquingles;
+package fr.univ.taquingles.formes;
 
 import android.opengl.Matrix;
 

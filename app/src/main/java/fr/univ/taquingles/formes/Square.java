@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.univ.taquingles;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-
-import android.util.Log;
+package fr.univ.taquingles.formes;
 
 //import android.opengl.GLES20;
-import android.opengl.GLES30;
+
 
 public class Square extends AForme {
 

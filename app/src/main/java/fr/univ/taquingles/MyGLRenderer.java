@@ -17,27 +17,25 @@ package fr.univ.taquingles;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
 
-import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 import android.util.Pair;
 
-import java.lang.reflect.Array;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.univ.taquingles.taquin.Couleur;
+import fr.univ.taquingles.formes.Etoile;
+import fr.univ.taquingles.formes.FormeParam;
+import fr.univ.taquingles.formes.Losange;
+import fr.univ.taquingles.formes.Pentagone;
+import fr.univ.taquingles.formes.Square;
+import fr.univ.taquingles.formes.Triangle;
 import fr.univ.taquingles.taquin.Forme;
 import fr.univ.taquingles.taquin.Objet;
 import fr.univ.taquingles.taquin.Taquin;
-
-import static javax.microedition.khronos.opengles.GL11.GL_VIEWPORT;
 
 /* MyGLRenderer implémente l'interface générique GLSurfaceView.Renderer */
 
@@ -76,6 +74,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.rendererManager.nouvelleForme(Forme.TRIANGLE, new Triangle());
         this.rendererManager.nouvelleForme(Forme.LOSANGE, new Losange());
         this.rendererManager.nouvelleForme(Forme.ETOILE, new Etoile());
+        this.rendererManager.nouvelleForme(Forme.PENTAGONE, new Pentagone());
 
         /* On initialise le renderer manager avec toutes les formes qu'il contient */
         this.rendererManager.init();
@@ -95,6 +94,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 }
             }
         }
+
     }
 
     /* Deuxième méthode équivalente à la fonction Display */
@@ -143,7 +143,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES30.glViewport(0, 0, width, height);
         float aspectRatio = (float) width / (float) height;
         Matrix.orthoM(mProjectionMatrix,  0, 0, aspectRatio, 0, 1, -1.0f, 1.0f);
-        Matrix.scaleM(mProjectionMatrix, 0, 0.05f, 0.05f, 1.0f);
+        Matrix.scaleM(mProjectionMatrix, 0, 0.03f, 0.03f, 1.0f);
 
     }
 

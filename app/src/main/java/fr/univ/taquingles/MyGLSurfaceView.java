@@ -48,7 +48,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
 
-        this.mRenderer.init(new Taquin(4));
+        this.mRenderer.init(new Taquin(5));
 
         // Option pour indiquer qu'on redessine uniquement si les données changent
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
