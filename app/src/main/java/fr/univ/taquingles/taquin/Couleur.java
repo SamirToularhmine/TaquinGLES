@@ -9,7 +9,7 @@ public enum Couleur {
     VERT(new float[]{0.0f, 1.0f, 0.0f, 1.0f}),
     BLEU(new float[]{0.0f, 0.0f, 1.0f, 1.0f}),
     JAUNE(new float[]{1.0f, 1.0f, 0.0f, 1.0f}),
-    RIEN(new float[]{0.0f, 0.0f, 0.0f, 0.0f});
+    ROSE(new float[]{1.0f, 0.0f, 1.0f, 1.0f}); // c'est du violet en réalité mais Samir voulait du rose donc on va dire que c'est du rose :)
 
     private float[] couleur;
 
