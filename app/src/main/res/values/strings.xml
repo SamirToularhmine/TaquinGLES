@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TaquinGLES</string>
+    <string name="commencer">Commencer</string>
+    <string name="taille_text">Choisissez la taille du taquin</string>
 </resources>

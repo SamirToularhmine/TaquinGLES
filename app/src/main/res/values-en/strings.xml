@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TaquinGLES</string>
+    <string name="commencer">Start</string>
+    <string name="taille_text">Select the size of the board</string>
+</resources>
