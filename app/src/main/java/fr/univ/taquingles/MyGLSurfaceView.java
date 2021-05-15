@@ -48,7 +48,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
 
-        this.mRenderer.init(new Taquin(3));
+        this.mRenderer.init(new Taquin(5));
 
         // Option pour indiquer qu'on redessine uniquement si les données changent
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -73,25 +73,21 @@ public class MyGLSurfaceView extends GLSurfaceView {
         /* accès aux paramètres du rendu (cf MyGLRenderer.java)
         soit la position courante du centre du carré
          */
-        //float[] pos = mRenderer.getPosition();
-        float[] pos = new float[]{0, 0};
+        float[] pos = new float[] {0, 0};
 
         /* Conversion des coordonnées pixel en coordonnées OpenGL
         Attention l'axe x est inversé par rapport à OpenGLSL
         On suppose que l'écran correspond à un carré d'arête 2 centré en 0
          */
 
-        float x_opengl = x/getWidth();
-        float y_opengl = y/getHeight();
-
-        mRenderer.checkAndSetPosition(x_opengl, y_opengl, this.getWidth(), this.getHeight());
+        float x_opengl = 20.0f*x/getWidth() - 10.0f;
+        float y_opengl = -40.0f * y/getHeight() + 20.0f;
 
         /* Le carré représenté a une arête de 2 (oui il va falloir changer cette valeur en dur !!)
         /* On teste si le point touché appartient au carré ou pas car on ne doit le déplacer que si ce point est dans le carré
         */
 
-        boolean test_square = ((x_opengl < pos[0]+1.0) && (x_opengl > pos[0]-1.0) && (y_opengl < pos[1]+1.0) && (y_opengl > pos[1]-1.0));
-
+        boolean test_square = this.mRenderer.checkPosition(x_opengl, y_opengl);
 
         if (condition || test_square) {
 
@@ -105,11 +101,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 case MotionEvent.ACTION_UP:
                     requestRender(); // équivalent de glutPostRedisplay pour lancer le dessin avec les modifications.
                     condition=false;
-
             }
         }
 
         return true;
     }
-
 }

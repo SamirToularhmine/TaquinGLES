@@ -25,6 +25,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import fr.univ.taquingles.formes.Etoile;
@@ -33,6 +34,7 @@ import fr.univ.taquingles.formes.Losange;
 import fr.univ.taquingles.formes.Pentagone;
 import fr.univ.taquingles.formes.Square;
 import fr.univ.taquingles.formes.Triangle;
+import fr.univ.taquingles.taquin.Couleur;
 import fr.univ.taquingles.taquin.Forme;
 import fr.univ.taquingles.taquin.Objet;
 import fr.univ.taquingles.taquin.Taquin;
@@ -82,23 +84,33 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         /* On crée notre draw queue */
         this.taquin.initailShuffle();
 
+        this.initialiserDrawQueue();
+    }
+
+    private void initialiserDrawQueue() {
         Objet[][] objets = this.taquin.getTableau();
         int tailleTableau = objets.length;
-        float padding = 0;
-
-        if(tailleTableau == 3){
-            padding = 1;
-        }
+        float scale = 1f;
+        float margin = 3.5f;
 
         if(tailleTableau == 4){
-            padding = 0.5f;
+            scale = 2;
+            margin = 4.5f;
         }
+
+        if(tailleTableau == 3){
+            scale = 2.5f;
+            margin = 7f;
+        }
+
+        this.drawQueue.clear();
+        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{0, 0, 0}, new float[]{0, 0, 0}, new float[]{10, 10, 1}, Couleur.BOIS, -1, -1)));
 
         for(int i = 0; i < objets.length; i++){
             for(int j = 0; j < objets[0].length; j++){
                 Objet o = objets[i][j];
                 if(o != null){
-                    this.drawQueue.add(Pair.create(o.getForme(), new FormeParam(new float[]{1.5f + (2.5f * (j + padding)), 1.5f + (2.5f * i), 0}, new float[]{0, 0, 0}, new float[]{1, 1, 1}, o.getCouleur())));
+                    this.drawQueue.add(Pair.create(o.getForme(), new FormeParam(new float[]{-7 + (margin * j), -7 + (margin * i), 0}, new float[]{0, 0, 0}, new float[]{scale, scale, 1}, o.getCouleur(), i, j)));
                 }
             }
         }
@@ -129,7 +141,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         for(Pair<Forme, FormeParam> p : this.drawQueue){
             Matrix.setIdentityM(scratch, 0);
 
-            Log.d("Renderer : ", p.first.name() + " -> Couleur : " + p.second.getCouleur().name());
+            //Log.d("Renderer : ", p.first.name() + " -> Couleur : " + p.second.getCouleur().name());
 
             /* scratch est la matrice PxVxM finale */
             Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, p.second.getModelMatrix(), 0);
@@ -147,12 +159,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         /* ici on aurait pu se passer de cette méthode et déclarer
         la projection qu'à la création de la surface !!
          */
-        int tailleTableau = this.taquin.getTableau().length;
-        GLES30.glViewport(0, height / tailleTableau, width, height);
-        float aspectRatio = (float) width / (float) height;
-        Matrix.orthoM(mProjectionMatrix,  0, 0, aspectRatio, 0, 1, -1.0f, 1.0f);
-        Matrix.scaleM(mProjectionMatrix, 0, 0.04f, 0.04f, 1.0f);
-
+        GLES30.glViewport(0, 0, width, height);
+        Matrix.orthoM(mProjectionMatrix, 0,-10.0f, 10.0f, -20.0f, 20.0f, 1.0f, -1.0f);
     }
 
     /* La gestion des shaders ... */
@@ -170,18 +178,24 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     /* Les méthodes nécessaires à la manipulation de la position finale du carré */
-   public void checkAndSetPosition(float x, float y, float width, float height) {
-        for(Pair<Forme, FormeParam> p : this.drawQueue){
-            float[] position = p.second.getPosition();
-            Log.d("Position : ", String.valueOf(position[0] / width) + ", " + String.valueOf(position[1] / height));
-            if(((x < position[0] + 1.0f) && (x > position[0] - 1.0f) && (y < position[1] + 1.0f) && (y > position[1] - 1.0f))){
-                System.out.println(p.first.name() + x + " " + y);
-            }
-        }
+   public boolean checkPosition(float x, float y) {
+       for (Pair<Forme, FormeParam> current : this.drawQueue) {
+           float[] pos = current.second.getPosition();
+           if (((x < pos[0] + 1.0) && (x > pos[0] - 1.0) && (y < pos[1] + 1.0) && (y > pos[1] - 1.0))) {
+               //current.second.setCouleur(Couleur.BLANC);
+               if(current.second.getPosI() != -1 && current.second.getPosJ() != -1){
+                   int i = current.second.getPosI();
+                   int j = current.second.getPosJ();
+                   Objet o = this.taquin.getTableau()[i][j];
+                   if(/*o.checkVide()*/ true){
+                       this.taquin.bougerVideBas();
+                       this.initialiserDrawQueue();
+                       return true;
+                   }
+               }
+           }
+       }
+       return false;
     }
-
-    /*public float[] getPosition() {
-        return mSquarePosition;
-    }*/
 
 }

@@ -11,16 +11,22 @@ public class FormeParam {
     private float[] rotation;
     private float[] scale;
 
+    //Position dans le taquin
+    private int posI;
+    private int posJ;
+
     private float[] modelMatrix;
 
     // Color
     private Couleur couleur;
 
-    public FormeParam(float[] position, float[] rotation, float[] scale, Couleur couleur) {
+    public FormeParam(float[] position, float[] rotation, float[] scale, Couleur couleur, int posI, int posJ) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
         this.couleur = couleur;
+        this.posI = posI;
+        this.posJ = posJ;
 
         this.modelMatrix = new float[16];
 
@@ -77,5 +83,21 @@ public class FormeParam {
 
     public float[] getModelMatrix() {
         return this.modelMatrix;
+    }
+
+    public int getPosI() {
+        return posI;
+    }
+
+    public void setPosI(int posI) {
+        this.posI = posI;
+    }
+
+    public int getPosJ() {
+        return posJ;
+    }
+
+    public void setPosJ(int posJ) {
+        this.posJ = posJ;
     }
 }
