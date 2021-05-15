@@ -2,6 +2,7 @@ package fr.univ.taquingles;
 
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.app.Activity;
@@ -34,8 +35,8 @@ public class OpenGLES20Activity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
-        mGLView = new MyGLSurfaceView(this);
+        int taille = getIntent().getIntExtra("taille", 3);
+        mGLView = new MyGLSurfaceView(this, taille);
 
         /* Définition de View pour cette activité */
         setContentView(mGLView);
