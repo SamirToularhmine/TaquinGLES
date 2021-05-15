@@ -48,7 +48,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
 
-        this.mRenderer.init(new Taquin(5));
+        this.mRenderer.init(new Taquin(3));
 
         // Option pour indiquer qu'on redessine uniquement si les données changent
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -81,16 +81,17 @@ public class MyGLSurfaceView extends GLSurfaceView {
         On suppose que l'écran correspond à un carré d'arête 2 centré en 0
          */
 
-        float x_opengl = x / getWidth();
-        float y_opengl = y / getHeight();
+        float x_opengl = x/getWidth();
+        float y_opengl = y/getHeight();
 
-        mRenderer.checkAndSetPosition(x_opengl, y_opengl);
+        mRenderer.checkAndSetPosition(x_opengl, y_opengl, this.getWidth(), this.getHeight());
 
         /* Le carré représenté a une arête de 2 (oui il va falloir changer cette valeur en dur !!)
         /* On teste si le point touché appartient au carré ou pas car on ne doit le déplacer que si ce point est dans le carré
         */
 
-       boolean test_square = ((x_opengl < pos[0]+1.0) && (x_opengl > pos[0]-1.0) && (y_opengl < pos[1]+1.0) && (y_opengl > pos[1]-1.0));
+        boolean test_square = ((x_opengl < pos[0]+1.0) && (x_opengl > pos[0]-1.0) && (y_opengl < pos[1]+1.0) && (y_opengl > pos[1]-1.0));
+
 
         if (condition || test_square) {
 
