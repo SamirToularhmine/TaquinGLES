@@ -11,4 +11,5 @@
     <string name="recommencer">Recommencer</string>
     <string name="perdu">Vous avez perdu !</string>
     <string name="gagne">Vous avez gagné !</string>
+    <string name="solution_du_taquin">Solution du taquin</string>
 </resources>
