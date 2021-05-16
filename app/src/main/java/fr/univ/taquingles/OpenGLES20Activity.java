@@ -122,7 +122,7 @@ public class OpenGLES20Activity extends Activity {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setView(popupView);
-        alertDialogBuilder.setTitle("You won !");
+        alertDialogBuilder.setTitle(texte);
         alertDialogBuilder.setCancelable(false);
         alertDialogBuilder.show();
     }
