@@ -3,6 +3,8 @@ package fr.univ.taquingles.taquin;
 
 import android.util.Log;
 
+import fr.univ.taquingles.exceptions.DeplacementImpossibleException;
+
 /**
  * Classe pour la gestion du taquin
  */
@@ -208,6 +210,29 @@ public class Taquin {
         tableau[gauche.getX()][gauche.getY()] = gauche;
         tableau[xVide][yVide] = null;
         return true;
+    }
+
+    /**
+     * méthode qui retourn la direction du vide comparé à un élément du tableau
+     * @param i est la première coordonnée du tableau
+     * @param j est la deuxième coordonnée du tableau
+     * @return la dericetion du vide, null si ce n'est pas possible
+     **/
+    public Directions directionVide(int i, int j) {
+        if (i > 0 && this.tableau[i - 1][j] == null) {
+            return Directions.HAUT;
+        }
+        if (i < tableau.length - 1 && this.tableau[i + 1][j] == null){
+            return Directions.BAS;
+        }
+        if (j > 0 && this.tableau[i][j - 1] == null){
+            return Directions.GAUCHE;
+        }
+        if (j < tableau[i].length - 1 && this.tableau[i][j + 1] == null){
+            return Directions.DROITE;
+        }
+        return null;
+
     }
 
     public Objet[][] getTableau() {

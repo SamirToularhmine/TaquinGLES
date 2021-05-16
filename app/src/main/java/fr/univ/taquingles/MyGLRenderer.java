@@ -35,6 +35,7 @@ import fr.univ.taquingles.formes.Pentagone;
 import fr.univ.taquingles.formes.Square;
 import fr.univ.taquingles.formes.Triangle;
 import fr.univ.taquingles.taquin.Couleur;
+import fr.univ.taquingles.taquin.Directions;
 import fr.univ.taquingles.taquin.Forme;
 import fr.univ.taquingles.taquin.Objet;
 import fr.univ.taquingles.taquin.Taquin;
@@ -186,11 +187,26 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                if(current.second.getPosI() != -1 && current.second.getPosJ() != -1){
                    int i = current.second.getPosI();
                    int j = current.second.getPosJ();
-                   Objet o = this.taquin.getTableau()[i][j];
-                   if(/*o.checkVide()*/ true){
-                       this.taquin.bougerVideBas();
+                   Directions directionDeplacement = this.taquin.directionVide(i, j);
+                   if(directionDeplacement != null){
+                       switch (directionDeplacement){
+                           case GAUCHE:
+                               this.taquin.bougerVideDroite();
+                               break;
+                           case DROITE:
+                               this.taquin.bougerVideGauche();
+                               break;
+                           case HAUT:
+                               this.taquin.bougerVideBas();
+                               break;
+                           case BAS:
+                               this.taquin.bougerVideHaut();
+                               break;
+                       }
                        this.initialiserDrawQueue();
                        return true;
+                   }else{
+                       Log.d("DEPLACEMENT", "DEPLACEMENT IMPOSSIBLE" );
                    }
                }
            }
