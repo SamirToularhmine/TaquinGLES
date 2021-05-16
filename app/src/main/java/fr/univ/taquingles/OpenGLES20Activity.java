@@ -31,6 +31,7 @@ public class OpenGLES20Activity extends Activity {
     private int tempsTotal;
     private Chronometer chronometer;
     private int nbCoups;
+    private int taille;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,8 @@ public class OpenGLES20Activity extends Activity {
         //WindowManager.LayoutParams.FLAG_FULLSCREEN,
         //WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent i = getIntent();
-        int taille = i.getIntExtra("TAILLE", 3);
-        this.mGLView = new MyGLSurfaceView(this, taille);
+        this.taille = i.getIntExtra("TAILLE", 3);
+        this.mGLView = new MyGLSurfaceView(this, this.taille);
 
         FrameLayout f = findViewById(R.id.gl_frame);
         f.addView(this.mGLView);
@@ -163,6 +164,21 @@ public class OpenGLES20Activity extends Activity {
     }
 
     public void quitter(View view) {
+        finish();
+    }
+
+    public void recommencer(View view) {
+        this.nbCoups = 0;
+        this.tempsTotal = -1;
+        this.chronometer = findViewById(R.id.chrono);
+
+        if (this.counter == -1) {
+            this.initChrono();
+        } else {
+            this.initTimer();
+        }
+
+        this.chronometer.start();
         finish();
     }
 
