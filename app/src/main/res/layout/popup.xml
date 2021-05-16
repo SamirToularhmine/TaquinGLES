@@ -12,8 +12,15 @@
         android:id="@+id/textPopup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:text="Vous avez perdu"
+        />
+
+    <TextView
+        android:id="@+id/temps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="100 s"
         />
 
     <LinearLayout
@@ -24,13 +31,13 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recommencer"
+            android:text="@string/recommencer"
             />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quitter"
+            android:text="@string/menu"
             android:onClick="Quitter"
             />
     </LinearLayout>

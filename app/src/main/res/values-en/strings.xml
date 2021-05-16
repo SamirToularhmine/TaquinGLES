@@ -8,4 +8,8 @@
     <string name="difficile">Hard</string>
     <string name="niveau">Difficulty level</string>
     <string name="solution">Solution</string>
+    <string name="menu">Menu</string>
+    <string name="recommencer">Restart</string>
+    <string name="gagne">You won !</string>
+    <string name="perdu">You lost !</string>
 </resources>

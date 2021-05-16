@@ -18,6 +18,7 @@ package fr.univ.taquingles;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
@@ -218,7 +219,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                        }
                        this.initialiserDrawQueue();
                        if (this.taquin.isFinished()){
-                           Log.d("FINITO", "C FINITO MON POTE" );
+                           OpenGLES20Activity activity = (OpenGLES20Activity) context;
+                           activity.afficherPopup(R.string.gagne, true);
                        }
 
                        return true;

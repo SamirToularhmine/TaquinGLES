@@ -1,7 +1,6 @@
 package fr.univ.taquingles;
 
 
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -33,6 +32,8 @@ public class OpenGLES20Activity extends Activity {
     // le conteneur View pour faire du rendu OpenGL
     private GLSurfaceView mGLView;
     private int counter;
+    private int tempsTotal = -1;
+    private Chronometer chronometer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class OpenGLES20Activity extends Activity {
         /* Pour le plein écran */
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         //getWindow().setFlags(
-                //WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                //WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        //WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent i = getIntent();
         int taille = i.getIntExtra("TAILLE", 3);
         this.mGLView = new MyGLSurfaceView(this, taille);
@@ -56,71 +57,81 @@ public class OpenGLES20Activity extends Activity {
         FrameLayout f = findViewById(R.id.gl_frame);
         f.addView(this.mGLView);
 
+        this.chronometer = findViewById(R.id.chrono);
 
         this.counter = i.getIntExtra("COUNTER", -1);
-        this.initChrono();
+        if (this.counter == -1) {
+            this.initChrono();
+        } else {
+            this.initTimer();
+        }
+
+        this.chronometer.start();
 
         Button closeButton = findViewById(R.id.close);
-        closeButton.setOnClickListener(l -> {
-            finish();
-        });
+        closeButton.setOnClickListener(l -> finish());
+
+
     }
 
     private void initChrono(){
-        Chronometer chronometer = findViewById(R.id.chrono);
-        if (this.counter == -1 ){
-            chronometer.setText("");
-        }else {
-            chronometer.setOnChronometerTickListener(c -> {
-                if (this.counter <= 0) {
-                    System.out.println("FIN DE LA PARTIE DE JEU");
-                    afficherPopup("Vous avez perdu !");
-                    chronometer.setText("0");
-                    chronometer.stop();
-                } else {
-                    String text = String.valueOf(counter);
-                    chronometer.setText(text);
-                    this.counter--;
-                }
-            });
+        this.chronometer.setCountDown(false);
 
-            chronometer.start();
-        }
+        this.chronometer.setOnChronometerTickListener(c -> this.tempsTotal++);
     }
 
-    public void afficherPopup(String texte){
+    private void initTimer() {
+        this.chronometer.setOnChronometerTickListener(c -> {
+            if (this.counter <= 0) {
+                afficherPopup(R.string.perdu, false);
+                this.chronometer.setText("00:00");
+            } else {
+                String secondes = String.valueOf(counter % 60);
+                if (secondes.length() == 1){
+                    secondes = "0" + secondes;
+                }
+                String minutes = String.valueOf(counter / 60);
+                if (minutes.length() == 1){
+                    minutes = "0" + minutes;
+                }
+                String text = minutes + ":" + secondes;
+                this.chronometer.setText(text);
+                this.counter--;
+                this.tempsTotal++;
+            }
+        });
+    }
+
+    public void afficherPopup(int texte, boolean gagne) {
+        this.chronometer.stop();
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
         View popupView = inflater.inflate(R.layout.popup, null);
 
         TextView textPopup = popupView.findViewById(R.id.textPopup);
         textPopup.setText(texte);
+        TextView temps = popupView.findViewById(R.id.temps);
+        String texteTemps;
+        if (gagne){
+            texteTemps = "Score : " + this.tempsTotal;
+        }else{
+            texteTemps = "Temps écoulé : " + ++this.tempsTotal;
+        }
+        temps.setText(texteTemps);
+
 
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(this.mGLView, Gravity.CENTER, 0, 0);
 
-        // dismiss the popup window when touched
-        /*popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                popupView.performClick();
-
-                //popupWindow.dismiss();
-                return true;
-            }
-        });
-        */
 
     }
 
 
-    public void afficherSolution(View view){
+    public void afficherSolution(View view) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
         View popupView = inflater.inflate(R.layout.popup_solution, null);
@@ -131,9 +142,9 @@ public class OpenGLES20Activity extends Activity {
 
         if (taille == 4) {
             imageSolution.setImageResource(R.drawable.taquin_44);
-        }else if(taille == 5){
+        } else if (taille == 5) {
             imageSolution.setImageResource(R.drawable.taquin_55);
-        }else{
+        } else {
             imageSolution.setImageResource(R.drawable.taquin_33);
         }
 
