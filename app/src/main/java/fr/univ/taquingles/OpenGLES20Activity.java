@@ -8,10 +8,7 @@ import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
@@ -19,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
-import fr.univ.taquingles.taquin.Taquin;
 
 /* Ce tutorial est issu d'un tutorial http://developer.android.com/training/graphics/opengl/index.html :
 openGLES.zip HelloOpenGLES20
@@ -32,8 +27,9 @@ public class OpenGLES20Activity extends Activity {
     // le conteneur View pour faire du rendu OpenGL
     private GLSurfaceView mGLView;
     private int counter;
-    private int tempsTotal = -1;
+    private int tempsTotal;
     private Chronometer chronometer;
+    private int nbCoups;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +53,8 @@ public class OpenGLES20Activity extends Activity {
         FrameLayout f = findViewById(R.id.gl_frame);
         f.addView(this.mGLView);
 
+        this.nbCoups = 0;
+        this.tempsTotal = -1;
         this.chronometer = findViewById(R.id.chrono);
 
         this.counter = i.getIntExtra("COUNTER", -1);
@@ -111,6 +109,9 @@ public class OpenGLES20Activity extends Activity {
         TextView textPopup = popupView.findViewById(R.id.textPopup);
         textPopup.setText(texte);
         TextView temps = popupView.findViewById(R.id.temps);
+        TextView coups = popupView.findViewById(R.id.coups);
+        String coupsTexte = "Nombre de coups : " + nbCoups;
+        coups.setText(coupsTexte);
         String texteTemps;
         if (gagne){
             texteTemps = "Score : " + this.tempsTotal;
@@ -165,8 +166,14 @@ public class OpenGLES20Activity extends Activity {
 
     }
 
-
-    public void Quitter(View view) {
+    public void quitter(View view) {
         finish();
+    }
+
+    public void augmenterCoup(){
+        this.nbCoups++;
+        TextView coupsTitre = findViewById(R.id.coupsTitre);
+        String coupsTexte = String.valueOf(nbCoups);
+        coupsTitre.setText(coupsTexte);
     }
 }

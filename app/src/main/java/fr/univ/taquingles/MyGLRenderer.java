@@ -218,9 +218,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                                this.taquin.bougerVideHaut();
                                break;
                        }
+                       OpenGLES20Activity activity = (OpenGLES20Activity) context;
+                       activity.augmenterCoup();
                        this.initialiserDrawQueue();
                        if (this.taquin.isFinished()){
-                           OpenGLES20Activity activity = (OpenGLES20Activity) context;
                            activity.afficherPopup(R.string.gagne, true);
                        }
 
