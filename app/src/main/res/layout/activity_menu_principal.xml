@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuPrincipalActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MenuPrincipalActivity">
 
 
     <TextView
@@ -14,12 +15,110 @@
         android:layout_weight="1"
         android:text="@string/taille_text" />
 
-    <Spinner
-        android:id="@+id/spinner"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="3 x 3" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:contentDescription="3 x 4"
+                app:srcCompat="@drawable/taquin_33" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="4 x 4" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:contentDescription="4 x 4"
+                app:srcCompat="@drawable/taquin_44" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="5 x 5" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:contentDescription="5 x 5"
+                app:srcCompat="@drawable/taquin_55" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radiogroup_taille"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:spinnerMode="dropdown" />
+        android:gravity="top"
+        android:orientation="horizontal">
+
+
+        <RadioButton
+            android:id="@+id/radioButton_33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+
+
+            />
+
+
+        <RadioButton
+            android:id="@+id/radioButton_44"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:id="@+id/radioButton_55"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            />
+
+
+    </RadioGroup>
 
     <TextView
         android:id="@+id/textView2"
@@ -31,14 +130,14 @@
         android:id="@+id/radiogroup_niveau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" >
-
+        android:layout_weight="1">
 
 
         <RadioButton
             android:id="@+id/radioButton_facile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/facile" />
 
         <RadioButton
@@ -58,7 +157,7 @@
         android:id="@+id/commencer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="lancerJeu"
         android:layout_weight="1"
+        android:onClick="lancerJeu"
         android:text="@string/commencer" />
 </LinearLayout>
