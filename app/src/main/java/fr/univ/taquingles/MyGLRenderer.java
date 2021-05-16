@@ -193,7 +193,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     }
 
     /* Les méthodes nécessaires à la manipulation de la position finale du carré */
-   public boolean checkPosition(float x, float y) {
+   public int checkPosition(float x, float y) {
        for (Pair<Forme, FormeParam> current : this.drawQueue) {
            float[] pos = current.second.getPosition();
            if (((x < pos[0] + (1.0 * this.scale)) && (x > pos[0] - (1.0 * this.scale)) && (y < pos[1] + (1.0 * this.scale)) && (y > pos[1] - (1.0 * this.scale)))) {
@@ -222,16 +222,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                            Log.d("FINITO", "C FINITO MON POTE" );
                        }
 
-                       return true;
+                       return 1;
                    }else{
                        Log.d("Déplacement", "Déplacement impossible");
                        current.second.startBlinking();
-                       return false;
+                       return -1;
                    }
                }
            }
        }
-       return false;
+       return 0;
     }
 
 }

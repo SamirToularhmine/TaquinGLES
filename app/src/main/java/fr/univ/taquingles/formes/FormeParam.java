@@ -1,6 +1,8 @@
 package fr.univ.taquingles.formes;
 
 import android.opengl.Matrix;
+import android.os.Handler;
+import android.os.Looper;
 
 import fr.univ.taquingles.taquin.Couleur;
 
@@ -24,7 +26,7 @@ public class FormeParam {
     private int idTextureResource;
     private boolean textured;
 
-    private static final long blinkDuration = 5000;
+    private static final long blinkDuration = 1000;
     private boolean blinking;
     private Couleur previousColor;
     private long blinkStart;
@@ -78,6 +80,37 @@ public class FormeParam {
         this.blinkStart = System.currentTimeMillis();
         this.previousColor = this.couleur;
         this.blinking = true;
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setCouleur(Couleur.BLANC);
+            }
+        }, blinkDuration / 4);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setCouleur(previousColor);
+            }
+        }, 2 * blinkDuration / 4);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setCouleur(Couleur.BLANC);
+            }
+        }, 3 * blinkDuration / 4);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                stopBlinking();
+                setCouleur(previousColor);
+            }
+        }, blinkDuration);
     }
 
     public void stopBlinking(){

@@ -18,8 +18,13 @@ package fr.univ.taquingles;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import fr.univ.taquingles.taquin.Taquin;
 
@@ -51,13 +56,14 @@ public class MyGLSurfaceView extends GLSurfaceView {
         this.mRenderer.init(new Taquin(taille), context);
 
         // Option pour indiquer qu'on redessine uniquement si les données changent
-        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
     /* pour gérer la translation */
     private float mPreviousX;
     private float mPreviousY;
     private boolean condition = false;
+    private int nbBlinking = 0;
 
     /* Comment interpréter les événements sur l'écran tactile */
     @Override
@@ -87,20 +93,42 @@ public class MyGLSurfaceView extends GLSurfaceView {
         /* On teste si le point touché appartient au carré ou pas car on ne doit le déplacer que si ce point est dans le carré
         */
 
-        boolean test_square = this.mRenderer.checkPosition(x_opengl, y_opengl);
 
-        if (condition || test_square) {
+        if(this.nbBlinking == 0) {
+            int test_square = this.mRenderer.checkPosition(x_opengl, y_opengl);
 
-            switch (e.getAction()) {
-                /* Lorsqu'on touche l'écran on mémorise juste le point */
-                case MotionEvent.ACTION_DOWN:
-                    mPreviousX = x;
-                    mPreviousY = y;
-                    condition=true;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    requestRender(); // équivalent de glutPostRedisplay pour lancer le dessin avec les modifications.
-                    condition=false;
+            if (test_square == -1) {
+                final Handler handler = new Handler();
+                final int[] i = {0};
+                this.nbBlinking++;
+
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        if (i[0] > 4) {
+                            handler.removeMessages(0);
+                            nbBlinking--;
+                            return;
+                        }
+                        requestRender();
+                        i[0]++;
+                        handler.postDelayed(this, 1000 / 4);
+                    }
+                }, 1000 / 4);
+            }
+
+            if ((condition || test_square == 1) && nbBlinking == 0) {
+
+                switch (e.getAction()) {
+                    /* Lorsqu'on touche l'écran on mémorise juste le point */
+                    case MotionEvent.ACTION_DOWN:
+                        mPreviousX = x;
+                        mPreviousY = y;
+                        condition = true;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        requestRender(); // équivalent de glutPostRedisplay pour lancer le dessin avec les modifications.
+                        condition = false;
+                }
             }
         }
 

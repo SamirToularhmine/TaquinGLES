@@ -51,9 +51,14 @@ public class RendererManager {
             "in vec2 passTexCoords;\n"+
             "uniform sampler2D textureSampler;\n"+
             "uniform int hasTexture;\n"+
+            "uniform int blink;\n"+
             "void main() {\n" +
             "if(hasTexture == 0){\n"+
+            "if(blink == 1){\n"+
+            "fragColor = vec4(1.0, 0, 0, 1.0);\n" +
+            "}else{\n"+
             "fragColor = Couleur;\n" +
+            "}\n"+
             "}else{\n"+
             "vec2 flipped_texcoords = vec2(passTexCoords.x, 1.0 - passTexCoords.y);\n" +
             "fragColor = texture(textureSampler, flipped_texcoords);\n" +
@@ -195,24 +200,10 @@ public class RendererManager {
 
         int cap = this.formesVao.get(p.first).get(0).capacity();
 
-        if(p.second.isBlinking()){
-            long currMillisecond = System.currentTimeMillis();
-            if(currMillisecond - p.second.getBlinkStart() >= 2){
-                p.second.stopBlinking();
-            }else{
-                float[] couleur = new float[] {0, 0, 0, 1};
-                couleur[0] = (float)((Math.sin(currMillisecond * 2 * Math.PI / 1000) * 0.5f) + 0.5f);
-                GLES30.glVertexAttribPointer(
-                        idColors, COULEURS_PER_VERTEX,
-                        GLES30.GL_FLOAT, false,
-                        couleurStride, Utils.getCouleurBuffer(Utils.getCouleurArray(couleur, cap), cap));
-            }
-        }else{
-            GLES30.glVertexAttribPointer(
-                    idColors, COULEURS_PER_VERTEX,
-                    GLES30.GL_FLOAT, false,
-                    couleurStride, Utils.getCouleurBuffer(Utils.getCouleurArray(p.second.getCouleur().getCouleurArray(), cap), cap));
-        }
+        GLES30.glVertexAttribPointer(
+                idColors, COULEURS_PER_VERTEX,
+                GLES30.GL_FLOAT, false,
+                couleurStride, Utils.getCouleurBuffer(Utils.getCouleurArray(p.second.getCouleur().getCouleurArray(), cap), cap));
 
         GLES30.glVertexAttribPointer(
                 idTexCoords, 2,
