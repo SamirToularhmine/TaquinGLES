@@ -212,6 +212,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                        return true;
                    }else{
                        Log.d("DEPLACEMENT", "DEPLACEMENT IMPOSSIBLE" );
+                       return false;
                    }
                }
            }
