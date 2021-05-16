@@ -18,6 +18,8 @@ package fr.univ.taquingles;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
+import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -48,6 +50,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private RendererManager rendererManager;
     private List<Pair<Forme, FormeParam>> drawQueue;
     private Taquin taquin;
+    private Context context;
 
     // Les matrices habituelles Model/View/Projection
     private final float[] mMVPMatrix = new float[16];
@@ -63,8 +66,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.scale = 1.0f;
     }
 
-    public void init(Taquin taquin){
+    public void init(Taquin taquin, Context c){
         this.taquin = taquin;
+        this.context = c;
     }
 
     /* Première méthode équivalente à la fonction init en OpenGLSL */
@@ -84,10 +88,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         /* On initialise le renderer manager avec toutes les formes qu'il contient */
         this.rendererManager.init();
 
+        GLES30.glEnable(GLES30.GL_TEXTURE_2D);
+
+        GLES30.glEnable(GLES20.GL_BLEND);
+        GLES30.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
         /* On crée notre draw queue */
         this.taquin.initShuffle();
-
         this.initialiserDrawQueue();
+
+        this.rendererManager.addTexture(context, R.drawable.board);
     }
 
     private void initialiserDrawQueue() {
@@ -106,7 +116,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         }
 
         this.drawQueue.clear();
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{0, 0, 0}, new float[]{0, 0, 0}, new float[]{10, 10, 1}, Couleur.BOIS, -1, -1)));
+        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{0, 0, 0}, new float[]{0, 0, 0}, new float[]{10, 10, 1}, R.drawable.board, -1, -1)));
 
         for(int i = 0; i < objets.length; i++){
             for(int j = 0; j < objets[0].length; j++){
