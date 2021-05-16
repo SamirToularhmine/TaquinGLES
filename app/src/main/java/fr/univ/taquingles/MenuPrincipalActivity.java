@@ -47,4 +47,19 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         startActivity(i);
     }
+
+    public void select33(View view) {
+        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
+        radioGroupNiveau.check(R.id.radioButton_33);
+    }
+
+    public void select44(View view) {
+        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
+        radioGroupNiveau.check(R.id.radioButton_44);
+    }
+
+    public void select55(View view) {
+        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
+        radioGroupNiveau.check(R.id.radioButton_55);
+    }
 }
