@@ -40,11 +40,26 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         if (idSelectedNiveau == R.id.radioButton_moyen){
             counter = 60 * 5; // 5 minutes
         }else if(idSelectedNiveau == R.id.radioButton_difficile){
-            counter = 60;
+            counter = 5;
         }
 
         i.putExtra("COUNTER", counter);
 
         startActivity(i);
+    }
+
+    public void select33(View view) {
+        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
+        radioGroupNiveau.check(R.id.radioButton_33);
+    }
+
+    public void select44(View view) {
+        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
+        radioGroupNiveau.check(R.id.radioButton_44);
+    }
+
+    public void select55(View view) {
+        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
+        radioGroupNiveau.check(R.id.radioButton_55);
     }
 }

@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -32,13 +33,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="3 x 3" />
+                android:text="3 x 3"
+                android:onClick="select33"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:contentDescription="3 x 4"
-                app:srcCompat="@drawable/taquin_33" />
+                app:srcCompat="@drawable/taquin_33"
+                android:onClick="select33"/>
         </LinearLayout>
 
         <LinearLayout
@@ -51,13 +54,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="4 x 4" />
+                android:text="4 x 4"
+                android:onClick="select44"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:contentDescription="4 x 4"
-                app:srcCompat="@drawable/taquin_44" />
+                app:srcCompat="@drawable/taquin_44"
+                android:onClick="select44"/>
 
         </LinearLayout>
 
@@ -71,13 +76,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="5 x 5" />
+                android:text="5 x 5"
+                android:onClick="select55"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:contentDescription="5 x 5"
-                app:srcCompat="@drawable/taquin_55" />
+                app:srcCompat="@drawable/taquin_55"
+                android:onClick="select55"/>
 
         </LinearLayout>
     </LinearLayout>
