@@ -145,11 +145,19 @@ public class OpenGLES20Activity extends Activity {
             imageSolution.setImageResource(R.drawable.taquin_33);
         }
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setView(imageSolution);
-        alertDialogBuilder.setTitle("Solution");
-        alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.show();
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        popupWindow.showAtLocation(this.mGLView, Gravity.CENTER, 0, 0);
+
+        popupView.setOnTouchListener((v, event) -> {
+            popupView.performClick();
+            popupWindow.dismiss();
+            return true;
+        });
 
 
     }
