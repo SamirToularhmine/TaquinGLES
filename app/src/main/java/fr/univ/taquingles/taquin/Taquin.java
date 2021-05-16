@@ -113,9 +113,9 @@ public class Taquin {
     /**
      * Méthode qui effectue 1000 déplacements possibles afin de mélanger le taquin
      */
-    public void initailShuffle(){
+    public void initShuffle(){
         int n;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 3; i++) {
             n = (int) (Math.random() * 4);
             switch (n){
                 case 0:
@@ -136,13 +136,14 @@ public class Taquin {
 
     /**
      * Test si le tableau actuel est fini
-     * @return true le taquin est finit
+     * @return true le taquin est fini
      */
     public boolean isFinished(){
-        for (int i = 0; i < tableau.length - 1; i++) {
-            for (int j = 0; j < tableau[i].length - 1; j++) {
-                if (this.tableau[i][j] != null && !this.tableau[i][j].isPlaceCorrecte())
+        for (int i = 0; i < tableau.length; i++) {
+            for (int j = 0; j < tableau[i].length; j++) {
+                if (this.tableau[i][j] != null && !this.tableau[i][j].isPlaceCorrecte()) {
                     return false;
+                }
             }
         }
         return true;
