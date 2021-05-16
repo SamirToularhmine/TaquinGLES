@@ -15,12 +15,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
-
-        RadioGroup radioGroupTaille = findViewById(R.id.radiogroup_taille);
-        radioGroupTaille.check(R.id.radioButton_33);
-
-        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_niveau);
-        radioGroupNiveau.check(R.id.radioButton_facile);
     }
 
     public void lancerJeu(View view) {
