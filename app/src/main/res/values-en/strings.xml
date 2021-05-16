@@ -3,4 +3,8 @@
     <string name="app_name">TaquinGLES</string>
     <string name="commencer">Start</string>
     <string name="taille_text">Select the size of the board</string>
+    <string name="facile">Easy</string>
+    <string name="moyen">Medium</string>
+    <string name="difficile">Hard</string>
+    <string name="niveau">Difficulty level</string>
 </resources>
