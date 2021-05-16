@@ -55,9 +55,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mViewMatrix = new float[16];
     private final float[] mModelMatrix = new float[16];
 
+    private float scale;
+
     public MyGLRenderer(){
         this.rendererManager = RendererManager.getInstance();
         this.drawQueue = new ArrayList<>();
+        this.scale = 1.0f;
     }
 
     public void init(Taquin taquin){
@@ -90,16 +93,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private void initialiserDrawQueue() {
         Objet[][] objets = this.taquin.getTableau();
         int tailleTableau = objets.length;
-        float scale = 1f;
         float margin = 3.5f;
 
         if(tailleTableau == 4){
-            scale = 2;
+            this.scale = 2;
             margin = 4.5f;
         }
 
         if(tailleTableau == 3){
-            scale = 2.5f;
+            this.scale = 2.5f;
             margin = 7f;
         }
 
@@ -181,7 +183,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
    public boolean checkPosition(float x, float y) {
        for (Pair<Forme, FormeParam> current : this.drawQueue) {
            float[] pos = current.second.getPosition();
-           if (((x < pos[0] + 1.0) && (x > pos[0] - 1.0) && (y < pos[1] + 1.0) && (y > pos[1] - 1.0))) {
+           if (((x < pos[0] + (1.0 * this.scale)) && (x > pos[0] - (1.0 * this.scale)) && (y < pos[1] + (1.0 * this.scale)) && (y > pos[1] - (1.0 * this.scale)))) {
                //current.second.setCouleur(Couleur.BLANC);
                if(current.second.getPosI() != -1 && current.second.getPosJ() != -1){
                    int i = current.second.getPosI();
