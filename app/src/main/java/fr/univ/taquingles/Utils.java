@@ -7,6 +7,10 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLUtils;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 public class Utils {
 
     // Code de la méthode récupéré sur internet
@@ -42,5 +46,29 @@ public class Utils {
         }
 
         return textureHandle[0];
+    }
+
+    public static float[] getCouleurArray(float[] couleur, int n) {
+        float[] couleurs = new float[n * 4];
+
+        for(int i = 0; i < n * 4; i += 4){
+            couleurs[i] = couleur[0];
+            couleurs[i + 1] = couleur[1];
+            couleurs[i + 2] = couleur[2];
+            couleurs[i + 3] = couleur[3];
+        }
+
+        return couleurs;
+    }
+
+    public static FloatBuffer getCouleurBuffer(float[] couleurs, int n){
+
+        ByteBuffer bc = ByteBuffer.allocateDirect(couleurs.length * 4);
+        bc.order(ByteOrder.nativeOrder());
+        FloatBuffer cb = bc.asFloatBuffer();
+        cb.put(couleurs);
+        cb.flip();
+
+        return cb;
     }
 }

@@ -160,6 +160,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
             /* on appelle la méthode dessin du carré élémentaire */
             //mSquare.draw(scratch);
+
             this.rendererManager.draw(p, scratch);
         }
 
@@ -223,7 +224,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
                        return true;
                    }else{
-                       Log.d("DEPLACEMENT", "DEPLACEMENT IMPOSSIBLE" );
+                       Log.d("Déplacement", "Déplacement impossible");
+                       current.second.startBlinking();
                        return false;
                    }
                }

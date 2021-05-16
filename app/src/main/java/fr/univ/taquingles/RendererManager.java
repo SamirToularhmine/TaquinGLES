@@ -195,10 +195,24 @@ public class RendererManager {
 
         int cap = this.formesVao.get(p.first).get(0).capacity();
 
-        GLES30.glVertexAttribPointer(
-                idColors, COULEURS_PER_VERTEX,
-                GLES30.GL_FLOAT, false,
-                couleurStride, p.second.getCouleur().getCouleurBuffer(cap));
+        if(p.second.isBlinking()){
+            long currMillisecond = System.currentTimeMillis();
+            if(currMillisecond - p.second.getBlinkStart() >= 2){
+                p.second.stopBlinking();
+            }else{
+                float[] couleur = new float[] {0, 0, 0, 1};
+                couleur[0] = (float)((Math.sin(currMillisecond * 2 * Math.PI / 1000) * 0.5f) + 0.5f);
+                GLES30.glVertexAttribPointer(
+                        idColors, COULEURS_PER_VERTEX,
+                        GLES30.GL_FLOAT, false,
+                        couleurStride, Utils.getCouleurBuffer(Utils.getCouleurArray(couleur, cap), cap));
+            }
+        }else{
+            GLES30.glVertexAttribPointer(
+                    idColors, COULEURS_PER_VERTEX,
+                    GLES30.GL_FLOAT, false,
+                    couleurStride, Utils.getCouleurBuffer(Utils.getCouleurArray(p.second.getCouleur().getCouleurArray(), cap), cap));
+        }
 
         GLES30.glVertexAttribPointer(
                 idTexCoords, 2,

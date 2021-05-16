@@ -22,8 +22,12 @@ public class FormeParam {
 
     // Texture
     private int idTextureResource;
-
     private boolean textured;
+
+    private static final long blinkDuration = 5000;
+    private boolean blinking;
+    private Couleur previousColor;
+    private long blinkStart;
 
     public FormeParam(float[] position, float[] rotation, float[] scale, Couleur couleur, int posI, int posJ) {
         this.position = position;
@@ -32,10 +36,9 @@ public class FormeParam {
         this.couleur = couleur;
         this.posI = posI;
         this.posJ = posJ;
-
         this.modelMatrix = new float[16];
-
         this.textured = false;
+        this.blinking = false;
 
         this.processModelMatrix();
     }
@@ -47,11 +50,10 @@ public class FormeParam {
         this.idTextureResource = idTextureResource;
         this.posI = posI;
         this.posJ = posJ;
-
         this.modelMatrix = new float[16];
-
         this.textured = true;
         this.couleur = Couleur.BOIS;
+        this.blinking = false;
 
         this.processModelMatrix();
     }
@@ -70,6 +72,18 @@ public class FormeParam {
 
         // On applique un scale sur la matrice de modèle grâce au vecteur de scale
         Matrix.scaleM(this.modelMatrix, 0, this.scale[0], this.scale[1], this.scale[2]);
+    }
+
+    public void startBlinking(){
+        this.blinkStart = System.currentTimeMillis();
+        this.previousColor = this.couleur;
+        this.blinking = true;
+    }
+
+    public void stopBlinking(){
+        this.blinkStart = 0;
+        this.couleur = this.previousColor;
+        this.blinking = false;
     }
 
     public float[] getPosition() {
@@ -130,5 +144,17 @@ public class FormeParam {
 
     public void setTextured(boolean textured) {
         this.textured = textured;
+    }
+
+    public boolean isBlinking() {
+        return blinking;
+    }
+
+    public void setBlinking(boolean blinking) {
+        this.blinking = blinking;
+    }
+
+    public long getBlinkStart() {
+        return blinkStart;
     }
 }
