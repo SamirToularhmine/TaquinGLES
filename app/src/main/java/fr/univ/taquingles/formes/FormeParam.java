@@ -20,6 +20,11 @@ public class FormeParam {
     // Color
     private Couleur couleur;
 
+    // Texture
+    private int idTextureResource;
+
+    private boolean textured;
+
     public FormeParam(float[] position, float[] rotation, float[] scale, Couleur couleur, int posI, int posJ) {
         this.position = position;
         this.rotation = rotation;
@@ -29,6 +34,24 @@ public class FormeParam {
         this.posJ = posJ;
 
         this.modelMatrix = new float[16];
+
+        this.textured = false;
+
+        this.processModelMatrix();
+    }
+
+    public FormeParam(float[] position, float[] rotation, float[] scale, int idTextureResource, int posI, int posJ) {
+        this.position = position;
+        this.rotation = rotation;
+        this.scale = scale;
+        this.idTextureResource = idTextureResource;
+        this.posI = posI;
+        this.posJ = posJ;
+
+        this.modelMatrix = new float[16];
+
+        this.textured = true;
+        this.couleur = Couleur.BOIS;
 
         this.processModelMatrix();
     }
@@ -99,5 +122,13 @@ public class FormeParam {
 
     public void setPosJ(int posJ) {
         this.posJ = posJ;
+    }
+
+    public boolean isTextured() {
+        return this.textured;
+    }
+
+    public void setTextured(boolean textured) {
+        this.textured = textured;
     }
 }

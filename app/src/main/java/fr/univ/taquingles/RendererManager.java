@@ -1,8 +1,14 @@
 package fr.univ.taquingles;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.util.Pair;
 
+import java.lang.reflect.Array;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -15,6 +21,7 @@ import java.util.Map;
 
 import fr.univ.taquingles.formes.AForme;
 import fr.univ.taquingles.formes.FormeParam;
+import fr.univ.taquingles.taquin.Couleur;
 import fr.univ.taquingles.taquin.Forme;
 
 /**
@@ -22,53 +29,64 @@ import fr.univ.taquingles.taquin.Forme;
  */
 public class RendererManager {
 
-    private final String vertexShaderCode =
+    private static final String vertexShaderCode =
             "#version 300 es\n"+
             "uniform mat4 uMVPMatrix;\n"+
             "in vec3 vPosition;\n" +
             "in vec4 vCouleur;\n"+
             "out vec4 Couleur;\n"+
+            "in vec2 texCoords;\n"+
+            "out vec2 passTexCoords;\n"+
             "void main() {\n" +
             "gl_Position = uMVPMatrix * vec4(vPosition,1.0);\n" +
             "Couleur = vCouleur;\n"+
+            "passTexCoords = texCoords;\n"+
             "}\n";
 
-    private final String fragmentShaderCode =
+    private static final String fragmentShaderCode =
             "#version 300 es\n"+
             "precision mediump float;\n" + // pour définir la taille d'un float
             "in vec4 Couleur;\n"+
             "out vec4 fragColor;\n"+
+            "in vec2 passTexCoords;\n"+
+            "uniform sampler2D textureSampler;\n"+
+            "uniform int hasTexture;\n"+
             "void main() {\n" +
+            "if(hasTexture == 0){\n"+
             "fragColor = Couleur;\n" +
+            "}else{\n"+
+            "vec2 flipped_texcoords = vec2(passTexCoords.x, 1.0 - passTexCoords.y);\n" +
+            "fragColor = texture(textureSampler, flipped_texcoords);\n" +
+            "}\n"+
             "}\n";
 
-    private int[] linkStatus = {0};
+    private static final float[] quadTexCoords = new float[]{
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+
+    } ;
+
+    private final int[] linkStatus = {0};
+    private final int[] textureHandle = new int[1];
+
     private int idProgram;
-    private int idVertexShader;
-    private int idFragmentShader;
 
     private static RendererManager sInstance;
-    private Map<Forme, AForme> formes;
-    private Map<Forme, IntBuffer> formesIndices;
-    private float[] verticesArray;
 
-    // VBOS
-    private int idVertices;
-    private int idColors;
+    private final Map<Forme, AForme> formes;
+    private final Map<Forme, IntBuffer> formesIndices;
+    private final Map<Forme, List<Buffer>> formesVao;
 
-    private FloatBuffer verticesBuffer;
-    private FloatBuffer colorsBuffer;
+    private static final int COORDS_PER_VERTEX = 3; // nombre de coordonnées par vertex
+    private static final int COULEURS_PER_VERTEX = 4; // nombre de composantes couleur par vertex
+    private static final int TEXCOORD_PER_VERTEX = 2; // nombre de composantes couleur par vertex
 
-    private int IdMVPMatrix;
+    private static final int vertexStride = COORDS_PER_VERTEX * 4; // le pas entre 2 sommets : 4 bytes per vertex
+    private static final int couleurStride = COULEURS_PER_VERTEX * 4; // le pas entre 2 couleurs
+    private static final int texCoordsStride = TEXCOORD_PER_VERTEX * 4; // le pas entre 2 texCoords
 
-    static final int COORDS_PER_VERTEX = 3; // nombre de coordonnées par vertex
-    static final int COULEURS_PER_VERTEX = 4; // nombre de composantes couleur par vertex
-
-    private final int vertexStride = COORDS_PER_VERTEX * 4; // le pas entre 2 sommets : 4 bytes per vertex
-
-    private final int couleurStride = COULEURS_PER_VERTEX * 4; // le pas entre 2 couleurs
-
-    private List<Pair<Forme, FormeParam>> drawQueue;
 
     public static RendererManager getInstance(){
         if(sInstance == null){
@@ -81,17 +99,16 @@ public class RendererManager {
     public RendererManager(){
         this.formes = new HashMap<>();
         this.formesIndices = new HashMap<>();
+        this.formesVao = new HashMap<>();
     }
 
     public void nouvelleForme(Forme forme, AForme donnees){
         this.formes.put(forme, donnees);
+        this.formesVao.put(forme, new ArrayList<>());
     }
 
     public void init(){
         // Parcours de toutes les formes disponibles
-        List<Float> verticesList = new ArrayList<>();
-
-        // A REFAIRE @ TODO
         for(Map.Entry<Forme, AForme> entry : this.formes.entrySet()){
             float[] vertices = entry.getValue().getVertices();
             int[] indices = entry.getValue().getIndices();
@@ -99,88 +116,103 @@ public class RendererManager {
             ByteBuffer bb = ByteBuffer.allocateDirect(indices.length * 4);
             bb.order(ByteOrder.nativeOrder());
             IntBuffer ib = bb.asIntBuffer();
-            indices = Arrays.stream(indices).map(e -> e + (verticesList.size() / COORDS_PER_VERTEX)).toArray();
             ib.put(indices);
             ib.flip();
 
             this.formesIndices.put(entry.getKey(), ib);
 
-            // Ajout dans le vertices buffer
-            for (float vertex : vertices) {
-                verticesList.add(vertex);
-            }
+            // initialisation du buffer pour les vertex (4 bytes par float)
+            bb = ByteBuffer.allocateDirect(vertices.length * 4);
+            bb.order(ByteOrder.nativeOrder());
+            FloatBuffer vb = bb.asFloatBuffer();
+            vb.put(vertices);
+            vb.flip();
+
+            this.formesVao.get(entry.getKey()).add(vb);
+
+            // initialisation du buffer pour les textcoords
+            ByteBuffer bb1 = ByteBuffer.allocateDirect(quadTexCoords.length * 4);
+            bb1.order(ByteOrder.nativeOrder());
+            FloatBuffer tcb = bb1.asFloatBuffer();
+            tcb.put(quadTexCoords);
+            tcb.flip();
+
+            this.formesVao.get(entry.getKey()).add(tcb);
         }
-
-        this.verticesArray = new float[verticesList.size()];
-
-        // On rempli le tableau de vertices
-        for(int i = 0; i < verticesList.size(); i++){
-            this.verticesArray[i] = verticesList.get(i);
-        }
-
-        // initialisation du buffer pour les vertex (4 bytes par float)
-        ByteBuffer bb = ByteBuffer.allocateDirect(this.verticesArray.length * 4);
-        bb.order(ByteOrder.nativeOrder());
-        this.verticesBuffer = bb.asFloatBuffer();
-        this.verticesBuffer.put(verticesArray);
-        this.verticesBuffer.flip();
 
         /* Chargement des shaders */
-        this.idVertexShader = MyGLRenderer.loadShader(
+        int idVertexShader = MyGLRenderer.loadShader(
                 GLES30.GL_VERTEX_SHADER,
                 vertexShaderCode);
-        this.idFragmentShader = MyGLRenderer.loadShader(
+        int idFragmentShader = MyGLRenderer.loadShader(
                 GLES30.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
 
-        this.idProgram = GLES30.glCreateProgram();           // create empty OpenGL Program
-        GLES30.glAttachShader(idProgram, this.idVertexShader);     // add the vertex shader to program
-        GLES30.glAttachShader(idProgram, this.idFragmentShader);   // add the fragment shader to program
-        GLES30.glLinkProgram(idProgram);                    // create OpenGL program executables
+        this.idProgram = GLES30.glCreateProgram();
+        GLES30.glAttachShader(idProgram, idVertexShader);
+        GLES30.glAttachShader(idProgram, idFragmentShader);
+        GLES30.glLinkProgram(idProgram);
         GLES30.glGetProgramiv(idProgram, GLES30.GL_LINK_STATUS, linkStatus,0);
     }
 
+    public void addTexture(Context context, int resourceId){
+        this.textureHandle[0] = Utils.loadTexture(context, resourceId);
+    }
+
     public void draw(Pair<Forme, FormeParam> p, float[] mvpMatrix){
-        // Add program to OpenGL environment
         GLES30.glUseProgram(this.idProgram);
 
-        // get handle to shape's transformation matrix
-        this.IdMVPMatrix = GLES30.glGetUniformLocation(this.idProgram, "uMVPMatrix");
+        int idMVPMatrix = GLES30.glGetUniformLocation(this.idProgram, "uMVPMatrix");
 
-        // Apply the projection and view transformation
-        GLES30.glUniformMatrix4fv(this.IdMVPMatrix, 1, false, mvpMatrix, 0);
+        GLES30.glUniformMatrix4fv(idMVPMatrix, 1, false, mvpMatrix, 0);
 
-        // get handle to vertex shader's vPosition member et vCouleur member
-        this.idVertices = GLES30.glGetAttribLocation(this.idProgram, "vPosition");
-        this.idColors = GLES30.glGetAttribLocation(this.idProgram, "vCouleur");
+        int idVertices = GLES30.glGetAttribLocation(this.idProgram, "vPosition");
+        int idColors = GLES30.glGetAttribLocation(this.idProgram, "vCouleur");
+        int idTexCoords = GLES30.glGetAttribLocation(this.idProgram, "texCoords");
 
-        /* Activation des Buffers */
-        GLES30.glEnableVertexAttribArray(this.idVertices);
-        GLES30.glEnableVertexAttribArray(this.idColors);
+        int mTextureUniformHandle = GLES30.glGetUniformLocation(this.idProgram, "textureSampler");
+        int hasTextureUniformHandle = GLES30.glGetUniformLocation(this.idProgram, "hasTexture");
 
-        /* Lecture des Buffers */
+        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, this.textureHandle[0]);
+
+        GLES30.glUniform1i(mTextureUniformHandle, 0);
+
+        if(p.second.isTextured()){
+            GLES30.glUniform1i(hasTextureUniformHandle, 1);
+        }else{
+            GLES30.glUniform1i(hasTextureUniformHandle, 0);
+        }
+
+        GLES30.glEnableVertexAttribArray(idVertices);
+        GLES30.glEnableVertexAttribArray(idColors);
+        GLES30.glEnableVertexAttribArray(idTexCoords);
+
         GLES30.glVertexAttribPointer(
-                this.idVertices, COORDS_PER_VERTEX,
+                idVertices, COORDS_PER_VERTEX,
                 GLES30.GL_FLOAT, false,
-                this.vertexStride, this.verticesBuffer);
+                vertexStride, this.formesVao.get(p.first).get(0));
 
-        int cap = this.verticesArray.length;
+        int cap = this.formesVao.get(p.first).get(0).capacity();
 
         GLES30.glVertexAttribPointer(
-                this.idColors, COULEURS_PER_VERTEX,
+                idColors, COULEURS_PER_VERTEX,
                 GLES30.GL_FLOAT, false,
-                this.couleurStride, p.second.getCouleur().getCouleurBuffer(cap));
+                couleurStride, p.second.getCouleur().getCouleurBuffer(cap));
 
+        GLES30.glVertexAttribPointer(
+                idTexCoords, 2,
+                GLES30.GL_FLOAT, false,
+                texCoordsStride, this.formesVao.get(p.first).get(1));
 
         IntBuffer ib = this.formesIndices.get(p.first);
 
-        // Draw the square
         GLES30.glDrawElements(
                 GLES30.GL_TRIANGLES, ib.capacity(),
                 GLES30.GL_UNSIGNED_INT, ib);
 
-        // Disable vertex array
-        GLES30.glDisableVertexAttribArray(this.idVertices);
-        GLES30.glDisableVertexAttribArray(this.idColors);
+        GLES30.glDisableVertexAttribArray(idVertices);
+        GLES30.glDisableVertexAttribArray(idColors);
+        GLES30.glDisableVertexAttribArray(idTexCoords);
     }
 }
