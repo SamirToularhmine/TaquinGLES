@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".OpenGLES20Activity"
     android:orientation="vertical">
 
@@ -11,21 +10,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/header">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="@android:dimen/app_icon_size"
-            android:text="Taquin"/>
+        android:id="@+id/header"
+        android:gravity="center">
+
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/solution"
+            android:layout_weight="1"
+            android:gravity="center"
+
+            android:onClick="afficherSolution"/>
+
         <Chronometer
             android:id="@+id/chrono"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:countDown="true"/>
+            android:layout_weight="1"
+            android:countDown="true"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+
+
         <Button
             android:id="@+id/close"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+
             android:text="Fermer"/>
     </LinearLayout>
 

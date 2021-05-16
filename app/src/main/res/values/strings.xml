@@ -6,4 +6,5 @@
     <string name="moyen">Moyen</string>
     <string name="difficile">Difficile</string>
     <string name="niveau">Niveau du difficulté</string>
+    <string name="solution">Solution</string>
 </resources>

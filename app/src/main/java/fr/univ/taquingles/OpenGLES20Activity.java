@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -115,6 +116,41 @@ public class OpenGLES20Activity extends Activity {
             }
         });
         */
+
+    }
+
+
+    public void afficherSolution(View view){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        View popupView = inflater.inflate(R.layout.popup_solution, null);
+
+        ImageView imageSolution = popupView.findViewById(R.id.imageSolution);
+
+        int taille = getIntent().getIntExtra("TAILLE", 3);
+
+        if (taille == 4) {
+            imageSolution.setImageResource(R.drawable.taquin_44);
+        }else if(taille == 5){
+            imageSolution.setImageResource(R.drawable.taquin_55);
+        }else{
+            imageSolution.setImageResource(R.drawable.taquin_33);
+        }
+
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        popupWindow.showAtLocation(this.mGLView, Gravity.CENTER, 0, 0);
+
+        popupView.setOnTouchListener((v, event) -> {
+            popupView.performClick();
+            popupWindow.dismiss();
+            return true;
+        });
+
 
     }
 
