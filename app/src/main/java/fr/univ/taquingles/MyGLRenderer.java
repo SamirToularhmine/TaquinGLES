@@ -187,9 +187,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                if(current.second.getPosI() != -1 && current.second.getPosJ() != -1){
                    int i = current.second.getPosI();
                    int j = current.second.getPosJ();
-                   Directions directionDeplacement = this.taquin.directionVide(i, j);
-                   if(directionDeplacement != null){
-                       switch (directionDeplacement){
+                   Directions directionVide = this.taquin.directionVide(i, j);
+                   if(directionVide != null){
+                       switch (directionVide){
                            case GAUCHE:
                                this.taquin.bougerVideDroite();
                                break;
