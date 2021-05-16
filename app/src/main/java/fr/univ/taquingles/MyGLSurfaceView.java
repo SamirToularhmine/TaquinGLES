@@ -97,7 +97,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         if(this.nbBlinking == 0) {
             int test_square = this.mRenderer.checkPosition(x_opengl, y_opengl);
 
-            if (test_square == -1) {
+            if (test_square == -1 || test_square == 2) {
                 final Handler handler = new Handler();
                 final int[] i = {0};
                 this.nbBlinking++;
@@ -114,6 +114,11 @@ public class MyGLSurfaceView extends GLSurfaceView {
                         handler.postDelayed(this, 1000 / 4);
                     }
                 }, 1000 / 4);
+            }
+
+            if(test_square == 2){
+                OpenGLES20Activity activity = (OpenGLES20Activity) this.getContext();
+                activity.afficherPopup(R.string.gagne, true);
             }
 
             if ((condition || test_square == 1) && nbBlinking == 0) {

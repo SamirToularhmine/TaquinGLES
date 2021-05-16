@@ -1,6 +1,7 @@
 package fr.univ.taquingles;
 
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -108,10 +109,9 @@ public class OpenGLES20Activity extends Activity {
 
         View popupView = inflater.inflate(R.layout.popup, null);
 
-        TextView textPopup = popupView.findViewById(R.id.textPopup);
-        textPopup.setText(texte);
         TextView temps = popupView.findViewById(R.id.temps);
         String texteTemps;
+
         if (gagne){
             texteTemps = "Score : " + this.tempsTotal;
         }else{
@@ -119,15 +119,11 @@ public class OpenGLES20Activity extends Activity {
         }
         temps.setText(texteTemps);
 
-
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        popupWindow.showAtLocation(this.mGLView, Gravity.CENTER, 0, 0);
-
-
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(popupView);
+        alertDialogBuilder.setTitle("You won !");
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.show();
     }
 
 
@@ -148,19 +144,11 @@ public class OpenGLES20Activity extends Activity {
             imageSolution.setImageResource(R.drawable.taquin_33);
         }
 
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        // show the popup window
-        popupWindow.showAtLocation(this.mGLView, Gravity.CENTER, 0, 0);
-
-        popupView.setOnTouchListener((v, event) -> {
-            popupView.performClick();
-            popupWindow.dismiss();
-            return true;
-        });
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(imageSolution);
+        alertDialogBuilder.setTitle("Solution");
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.show();
 
 
     }
