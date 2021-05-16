@@ -40,7 +40,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         if (idSelectedNiveau == R.id.radioButton_moyen){
             counter = 60 * 5; // 5 minutes
         }else if(idSelectedNiveau == R.id.radioButton_difficile){
-            counter = 60;
+            counter = 5;
         }
 
         i.putExtra("COUNTER", counter);
