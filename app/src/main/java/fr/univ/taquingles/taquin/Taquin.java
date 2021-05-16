@@ -115,7 +115,7 @@ public class Taquin {
      */
     public void initShuffle(){
         int n;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             n = (int) (Math.random() * 4);
             switch (n){
                 case 0:
