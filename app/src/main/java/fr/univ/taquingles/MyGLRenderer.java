@@ -25,7 +25,6 @@ import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import fr.univ.taquingles.formes.Etoile;
@@ -83,7 +82,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.rendererManager.init();
 
         /* On crée notre draw queue */
-        this.taquin.initailShuffle();
+        this.taquin.initShuffle();
 
         this.initialiserDrawQueue();
     }
@@ -204,6 +203,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                                break;
                        }
                        this.initialiserDrawQueue();
+                       if (this.taquin.isFinished()){
+                           Log.d("FINITO", "C FINITO MON POTE" );
+                       }
+
                        return true;
                    }else{
                        Log.d("DEPLACEMENT", "DEPLACEMENT IMPOSSIBLE" );
