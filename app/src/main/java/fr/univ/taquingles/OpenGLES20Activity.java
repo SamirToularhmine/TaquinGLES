@@ -24,6 +24,7 @@ public class OpenGLES20Activity extends Activity {
 
     // le conteneur View pour faire du rendu OpenGL
     private GLSurfaceView mGLView;
+    private int counter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,19 +41,40 @@ public class OpenGLES20Activity extends Activity {
         //getWindow().setFlags(
                 //WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 //WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        int taille = getIntent().getIntExtra("taille", 3);
+        Intent i = getIntent();
+        int taille = i.getIntExtra("taille", 3);
         this.mGLView = new MyGLSurfaceView(this, taille);
 
         FrameLayout f = findViewById(R.id.gl_frame);
         f.addView(this.mGLView);
 
-        Chronometer chronometer = findViewById(R.id.chrono);
-        chronometer.start();
+
+        this.counter = i.getIntExtra("counter", 60);
+        this.initChrono();
 
         Button closeButton = findViewById(R.id.close);
         closeButton.setOnClickListener(l -> {
             finish();
         });
+    }
+
+    private void initChrono(){
+        Chronometer chronometer = findViewById(R.id.chrono);
+        if (this.counter == -1 ){
+            chronometer.setText("");
+        }else {
+            chronometer.setOnChronometerTickListener(c -> {
+                if (this.counter < 0) {
+                    System.out.println("FIN DE LA PARTIE DE JEU");
+                    finish(); // @TODO A CHANGER PAR LA SUITE
+                } else {
+                    String text = String.valueOf(counter);
+                    chronometer.setText(text);
+                    this.counter--;
+                }
+            });
+
+            chronometer.start();
+        }
     }
 }

@@ -26,7 +26,8 @@
                 android:id="@+id/chrono"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="20:00" />
+                android:text="20:00"
+                android:countDown="true"/>
             <Button
                 android:id="@+id/close"
                 android:layout_width="wrap_content"
