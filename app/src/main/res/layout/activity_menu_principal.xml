@@ -29,28 +29,27 @@
             android:id="@+id/radioButton_33"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:drawableBottom="@drawable/taquin_33"
-            android:gravity="center"
-            android:text="3 x 3" />
+            android:drawableEnd="@drawable/image_33_petite"
+            />
 
 
         <RadioButton
             android:id="@+id/radioButton_44"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:drawableBottom="@drawable/taquin_44"
-            android:gravity="center"
-            android:text="4 x 4" />
-
+            android:drawableEnd="@drawable/image_44_petite"
+            />
 
         <RadioButton
             android:id="@+id/radioButton_55"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:drawableBottom="@drawable/taquin_55"
+            android:drawableEnd="@drawable/image_55_petite"
+            />
 
-            android:gravity="center"
-            android:text="5 x 5" />
+
+/>
+
 
 
     </RadioGroup>
