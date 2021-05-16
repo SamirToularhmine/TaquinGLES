@@ -110,7 +110,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             for(int j = 0; j < objets[0].length; j++){
                 Objet o = objets[i][j];
                 if(o != null){
-                    this.drawQueue.add(Pair.create(o.getForme(), new FormeParam(new float[]{-7 + (margin * j), -7 + (margin * i), 0}, new float[]{0, 0, 0}, new float[]{scale, scale, 1}, o.getCouleur(), i, j)));
+                    this.drawQueue.add(Pair.create(o.getForme(), new FormeParam(new float[]{-7 + (margin * j), 7 + (margin * -i), 0}, new float[]{0, 0, 0}, new float[]{scale, scale, 1}, o.getCouleur(), i, j)));
                 }
             }
         }
