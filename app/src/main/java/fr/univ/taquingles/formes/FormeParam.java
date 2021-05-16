@@ -1,8 +1,12 @@
 package fr.univ.taquingles.formes;
 
+import android.content.Context;
 import android.opengl.Matrix;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+
 
 import fr.univ.taquingles.taquin.Couleur;
 
@@ -30,8 +34,9 @@ public class FormeParam {
     private boolean blinking;
     private Couleur previousColor;
     private long blinkStart;
+    private Context context;
 
-    public FormeParam(float[] position, float[] rotation, float[] scale, Couleur couleur, int posI, int posJ) {
+    public FormeParam(float[] position, float[] rotation, float[] scale, Couleur couleur, int posI, int posJ, Context context) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
@@ -41,11 +46,12 @@ public class FormeParam {
         this.modelMatrix = new float[16];
         this.textured = false;
         this.blinking = false;
+        this.context = context;
 
         this.processModelMatrix();
     }
 
-    public FormeParam(float[] position, float[] rotation, float[] scale, int idTextureResource, int posI, int posJ) {
+    public FormeParam(float[] position, float[] rotation, float[] scale, int idTextureResource, int posI, int posJ, Context context) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
@@ -56,6 +62,7 @@ public class FormeParam {
         this.textured = true;
         this.couleur = Couleur.BOIS;
         this.blinking = false;
+        this.context = context;
 
         this.processModelMatrix();
     }
@@ -83,10 +90,13 @@ public class FormeParam {
 
         final Handler handler = new Handler(Looper.getMainLooper());
 
+        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 setCouleur(Couleur.BLANC);
+                v.vibrate(blinkDuration / 4);
             }
         }, blinkDuration / 4);
 
@@ -101,6 +111,7 @@ public class FormeParam {
             @Override
             public void run() {
                 setCouleur(Couleur.BLANC);
+                v.vibrate(blinkDuration / 4);
             }
         }, 3 * blinkDuration / 4);
 
