@@ -42,14 +42,14 @@ public class OpenGLES20Activity extends Activity {
                 //WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 //WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent i = getIntent();
-        int taille = i.getIntExtra("taille", 3);
+        int taille = i.getIntExtra("TAILLE", 3);
         this.mGLView = new MyGLSurfaceView(this, taille);
 
         FrameLayout f = findViewById(R.id.gl_frame);
         f.addView(this.mGLView);
 
 
-        this.counter = i.getIntExtra("counter", 60);
+        this.counter = i.getIntExtra("COUNTER", -1);
         this.initChrono();
 
         Button closeButton = findViewById(R.id.close);
