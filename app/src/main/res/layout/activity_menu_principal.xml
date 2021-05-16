@@ -3,29 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuPrincipalActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MenuPrincipalActivity">
 
-
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/taille_text" />
+        android:orientation="vertical"
+        android:padding="50dp">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:spinnerMode="dropdown" />
+        <TextView
+            android:id="@+id/textViewTaille"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/taille_text" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+        <TextView
+            android:id="@+id/textViewMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/mode_jeu" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/normal"
+                />
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/contre_la_montre" />
+
+
+        </RadioGroup>
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/commencer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="lancerJeu"
         android:layout_weight="1"
+        android:onClick="lancerJeu"
         android:text="@string/commencer" />
 </LinearLayout>

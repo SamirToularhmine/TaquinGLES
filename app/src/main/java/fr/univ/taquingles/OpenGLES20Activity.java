@@ -30,7 +30,7 @@ public class OpenGLES20Activity extends Activity {
            MyGLSurfaceView : classe à implémenter et en particulier la partie renderer */
 
         /* Pour le plein écran */
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);

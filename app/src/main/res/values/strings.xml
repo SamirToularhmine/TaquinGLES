@@ -2,4 +2,7 @@
     <string name="app_name">TaquinGLES</string>
     <string name="commencer">Commencer</string>
     <string name="taille_text">Choisissez la taille du taquin</string>
+    <string name="mode_jeu">Choisissez le mode de jeu</string>
+    <string name="normal">Normal</string>
+    <string name="contre_la_montre">Contre la montre</string>
 </resources>
