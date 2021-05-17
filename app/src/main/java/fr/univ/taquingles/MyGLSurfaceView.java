@@ -38,7 +38,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
     private final MyGLRenderer mRenderer;
     private Taquin taquin;
 
-    public MyGLSurfaceView(Context context, int taille) {
+    public MyGLSurfaceView(Context context, int taille, int texturePlateauId) {
         super(context);
         setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         // Création d'un context OpenGLES 2.0
@@ -48,7 +48,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         mRenderer = new MyGLRenderer(this);
         setRenderer(mRenderer);
         this.taquin =  new Taquin(taille);
-        this.mRenderer.init(taquin, context);
+        this.mRenderer.init(taquin, context, texturePlateauId);
 
         // Option pour indiquer qu'on redessine uniquement si les données changent
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);

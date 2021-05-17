@@ -57,6 +57,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mViewMatrix = new float[16];
     private final float[] mModelMatrix = new float[16];
 
+    private int texturePlateauId;
     private float scale;
 
     public MyGLRenderer(MyGLSurfaceView surfaceView){
@@ -66,9 +67,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.surfaceView = surfaceView;
     }
 
-    public void init(Taquin taquin, Context c){
+    public void init(Taquin taquin, Context c, int texturePlateauId){
         this.taquin = taquin;
         this.context = c;
+        this.texturePlateauId = texturePlateauId;
     }
 
     // Première méthode équivalente à la fonction init en OpenGLSL
@@ -103,7 +105,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.initialiserDrawQueue();
 
         // On ajoute la texture choisie par l'utilisateur
-        this.rendererManager.addTexture(context, R.drawable.board);
+        this.rendererManager.addTexture(context, this.texturePlateauId);
     }
 
     public void initialiserDrawQueue() {
@@ -125,7 +127,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.drawQueue.clear();
 
         // On ajoute le carré représentant le plateau
-        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{0, 0, 0}, new float[]{0, 0, 0}, new float[]{10, 10, 1}, R.drawable.board, -1, -1, context)));
+        this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{0, 0, 0}, new float[]{0, 0, 0}, new float[]{10, 10, 1}, this.texturePlateauId, -1, -1, context)));
 
         // On y place les différentes formes à l'intérieur en prenant en compte leur couleur, leur position, leur rotation, leur scale
         for(int i = 0; i < objets.length; i++){

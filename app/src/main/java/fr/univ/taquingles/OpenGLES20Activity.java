@@ -31,6 +31,7 @@ public class OpenGLES20Activity extends Activity {
     private int nbCoups;
     private int taille;
     private long tempsDebut;
+    private int texturePlateauId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,8 @@ public class OpenGLES20Activity extends Activity {
 
         Intent i = getIntent();
         this.taille = i.getIntExtra("TAILLE", 3);
-        this.mGLView = new MyGLSurfaceView(this, this.taille);
+        this.texturePlateauId = i.getIntExtra("PLATEAU", R.drawable.board);
+        this.mGLView = new MyGLSurfaceView(this, this.taille, this.texturePlateauId);
 
         FrameLayout f = findViewById(R.id.gl_frame);
         f.addView(this.mGLView);

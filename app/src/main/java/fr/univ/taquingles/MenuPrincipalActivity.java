@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -55,6 +56,21 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             taille = 4;
         }else if(idSelectedTaille == 2){
             taille = 5;
+        }
+
+        Spinner spinner = findViewById(R.id.spinner);
+        int plateauPos = spinner.getSelectedItemPosition();
+
+        if(plateauPos == 0){
+            i.putExtra("PLATEAU", R.drawable.board);
+        }
+
+        if(plateauPos == 1){
+            i.putExtra("PLATEAU", R.drawable.plateau);
+        }
+
+        if(plateauPos == 2){
+            i.putExtra("PLATEAU", R.drawable.ontime);
         }
 
         i.putExtra("TAILLE", taille);

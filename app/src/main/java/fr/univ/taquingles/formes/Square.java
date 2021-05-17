@@ -15,9 +15,6 @@
  */
 package fr.univ.taquingles.formes;
 
-//import android.opengl.GLES20;
-
-
 public class Square extends AForme {
 
     public Square(){
