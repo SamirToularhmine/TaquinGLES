@@ -85,15 +85,7 @@ public class OpenGLES20Activity extends Activity {
                 afficherPopup(R.string.perdu, false);
                 this.chronometer.setText("00:00");
             } else {
-                String secondes = String.valueOf(counter % 60);
-                if (secondes.length() == 1){
-                    secondes = "0" + secondes;
-                }
-                String minutes = String.valueOf(counter / 60);
-                if (minutes.length() == 1){
-                    minutes = "0" + minutes;
-                }
-                String text = minutes + ":" + secondes;
+                String text = this.getTemps(counter);
                 this.chronometer.setText(text);
                 this.counter--;
                 this.tempsTotal++;
@@ -114,11 +106,11 @@ public class OpenGLES20Activity extends Activity {
         String texteTemps;
 
         if (gagne){
-            texteTemps = "Score : " + this.tempsTotal;
+            texteTemps = "Temps écoulé : " + this.getTemps(this.tempsTotal);
         }else{
-            texteTemps = "Temps écoulé : " + ++this.tempsTotal;
+            texteTemps = "Temps écoulé : " + this.getTemps(++this.tempsTotal);
         }
-        temps.setText(texteTemps);
+        temps.setText(texteTemps );
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setView(popupView);
@@ -171,5 +163,17 @@ public class OpenGLES20Activity extends Activity {
         TextView coupsTitre = findViewById(R.id.coupsTitre);
         String coupsTexte = String.valueOf(nbCoups);
         coupsTitre.setText(coupsTexte);
+    }
+
+    private String getTemps(int temps){
+        String secondes = String.valueOf(temps % 60);
+        if (secondes.length() == 1){
+            secondes = "0" + secondes;
+        }
+        String minutes = String.valueOf(temps / 60);
+        if (minutes.length() == 1){
+            minutes = "0" + minutes;
+        }
+        return minutes + ":" + secondes;
     }
 }
