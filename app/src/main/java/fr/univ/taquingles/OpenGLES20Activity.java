@@ -114,8 +114,7 @@ public class OpenGLES20Activity extends Activity {
         temps.setText(texteTemps );
 
         TextView coups = popupView.findViewById(R.id.coups);
-        TextView coupsTitre = findViewById(R.id.coupsTitre);
-        String coupsTexte = "Nombre de coups : " + coupsTitre.getText();
+        String coupsTexte = String.valueOf(nbCoups);
         coups.setText(coupsTexte);
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -175,7 +174,7 @@ public class OpenGLES20Activity extends Activity {
 
     public void restartGame() {
         this.nbCoups = 0;
-        this.tempsTotal = 0;
+        this.tempsTotal = -1;
 
         TextView coupsTitre = findViewById(R.id.coupsTitre);
         coupsTitre.setText("0");
