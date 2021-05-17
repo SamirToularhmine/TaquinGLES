@@ -9,15 +9,6 @@ Si le dossier src ne suffit pas, le projet est disponible à l'adresse : https:/
 Il sera alors possible de l'importer directement dans Android Studio.
 
 Le projet s'exécute avec la version minimale du SDK : 24.
-
-# Screenshots de l'application
-
-<img src="screenshots/1.jpg" alt="drawing" style="width:100px;"/>
-<img src="screenshots/2.jpg" alt="drawing" style="width:100px;"/>
-<img src="screenshots/3.jpg" alt="drawing" style="width:100px;"/>
-<img src="screenshots/4.jpg" alt="drawing" style="width:100px;"/>
-<img src="screenshots/5.jpg" alt="drawing" style="width:100px;"/>
-
 --- 
 # Guide d'utilisation :
 
@@ -65,3 +56,11 @@ L'application est traduite en trois langues différentes :
 - Le grec
 
 La langue change en fonction de celle du système.
+
+# Screenshots de l'application
+
+<img src="screenshots/1.jpg" alt="drawing" style="width:100px;"/>
+<img src="screenshots/2.jpg" alt="drawing" style="width:100px;"/>
+<img src="screenshots/3.jpg" alt="drawing" style="width:100px;"/>
+<img src="screenshots/4.jpg" alt="drawing" style="width:100px;"/>
+<img src="screenshots/5.jpg" alt="drawing" style="width:100px;"/>
