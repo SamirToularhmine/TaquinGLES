@@ -52,7 +52,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setEGLContextClientVersion(3);
 
         // Création du renderer qui va être lié au conteneur View créé
-        mRenderer = new MyGLRenderer();
+        mRenderer = new MyGLRenderer(this);
         setRenderer(mRenderer);
         this.taquin =  new Taquin(taille);
         this.mRenderer.init(taquin, context);
@@ -133,7 +133,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
                         condition = true;
                         break;
                     case MotionEvent.ACTION_UP:
-                        requestRender(); // équivalent de glutPostRedisplay pour lancer le dessin avec les modifications.
                         condition = false;
                 }
             }
@@ -146,6 +145,5 @@ public class MyGLSurfaceView extends GLSurfaceView {
         this.taquin.initShuffle();
         this.mRenderer.initialiserDrawQueue();
         this.requestRender();
-
     }
 }

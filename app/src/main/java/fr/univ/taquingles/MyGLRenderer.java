@@ -52,6 +52,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private List<Pair<Forme, FormeParam>> drawQueue;
     private Taquin taquin;
     private Context context;
+    private MyGLSurfaceView surfaceView;
 
     // Les matrices habituelles Model/View/Projection
     private final float[] mMVPMatrix = new float[16];
@@ -61,10 +62,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private float scale;
 
-    public MyGLRenderer(){
+    public MyGLRenderer(MyGLSurfaceView surfaceView){
         this.rendererManager = RendererManager.getInstance();
         this.drawQueue = new ArrayList<>();
         this.scale = 1.0f;
+        this.surfaceView = surfaceView;
     }
 
     public void init(Taquin taquin, Context c){
@@ -225,6 +227,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                        OpenGLES20Activity activity = (OpenGLES20Activity) context;
                        activity.augmenterCoup();
                        this.initialiserDrawQueue();
+                       this.surfaceView.requestRender();
                        if (this.taquin.isFinished()){
                            this.drawQueue.forEach(p -> p.second.startBlinking());
                            return 2;
