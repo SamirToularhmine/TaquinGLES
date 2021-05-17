@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TaquinGLES</string>
+    <string name="commencer">Ξεκινήστε</string>
+    <string name="taille_text">"Επιλέξτε το μέγεθος "</string>
+    <string name="facile">Εύκολο</string>
+    <string name="moyen">Ενδιάμεσο</string>
+    <string name="difficile">Δύσκολο</string>
+    <string name="niveau">\'Οριο χρόνου</string>
+    <string name="solution">Λύση</string>
+    <string name="menu">Μενού</string>
+    <string name="recommencer">Επανεκκίνηση</string>
+    <string name="perdu">Χάσατε !</string>
+    <string name="gagne">Νικήσατε !</string>
+    <string name="solution_du_taquin">Λύση</string>
+    <string name="choix_du_plateau">Επιλέξτε τον πίνακα</string>
+    <string name="defaut">Προκαθορισμένο</string>
+    <string name="vert">"Πράσινο "</string>
+</resources>
