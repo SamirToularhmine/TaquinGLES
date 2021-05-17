@@ -17,6 +17,7 @@
 package fr.univ.taquingles;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.Log;

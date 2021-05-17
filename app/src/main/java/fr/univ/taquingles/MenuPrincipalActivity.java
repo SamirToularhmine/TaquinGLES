@@ -9,37 +9,53 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.google.android.material.slider.Slider;
+import com.google.android.material.tabs.TabLayout;
+
 public class MenuPrincipalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_menu_principal);
+
+        Slider slider = findViewById(R.id.sliderNiveau);
+        slider.setLabelFormatter(v -> {
+            if(Math.round(v) == 0){
+                return "Temps illimité";
+            }
+            if(Math.round(v) == 1){
+                return "5 minutes";
+            }
+            return "1 minute";
+        });
     }
 
     public void lancerJeu(View view) {
         Intent i = new Intent(this, OpenGLES20Activity.class);
 
-        RadioGroup radioGroupTaille = findViewById(R.id.radiogroup_taille);
-        int taille = 3;
-        int idSelectedTaille = radioGroupTaille.getCheckedRadioButtonId();
+        TabLayout tabs = findViewById(R.id.tabs);
 
-        if (idSelectedTaille == R.id.radioButton_44){
+        int idSelectedTaille = tabs.getSelectedTabPosition();
+        int taille = 3;
+
+        if (idSelectedTaille == 1){
             taille = 4;
-        }else if(idSelectedTaille == R.id.radioButton_55){
+        }else if(idSelectedTaille == 2){
             taille = 5;
         }
 
         i.putExtra("TAILLE", taille);
 
-
-        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_niveau);
+        Slider slider = findViewById(R.id.sliderNiveau);
         int counter = -1; // pas de durée par defaut
-        int idSelectedNiveau = radioGroupNiveau.getCheckedRadioButtonId();
+        int idSelectedNiveau = Math.round(slider.getValue());
 
-        if (idSelectedNiveau == R.id.radioButton_moyen){
+        if (idSelectedNiveau == 1){
             counter = 60 * 5; // 5 minutes
-        }else if(idSelectedNiveau == R.id.radioButton_difficile){
+        }else if(idSelectedNiveau == 2){
             counter = 5;
         }
 
@@ -49,17 +65,17 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     }
 
     public void select33(View view) {
-        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
-        radioGroupNiveau.check(R.id.radioButton_33);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.selectTab(tabs.getTabAt(0));
     }
 
     public void select44(View view) {
-        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
-        radioGroupNiveau.check(R.id.radioButton_44);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.selectTab(tabs.getTabAt(1));
     }
 
     public void select55(View view) {
-        RadioGroup radioGroupNiveau = findViewById(R.id.radiogroup_taille);
-        radioGroupNiveau.check(R.id.radioButton_55);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.selectTab(tabs.getTabAt(2));
     }
 }

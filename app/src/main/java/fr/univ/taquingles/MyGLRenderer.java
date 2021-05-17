@@ -94,6 +94,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES30.glEnable(GLES20.GL_BLEND);
         GLES30.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
+        GLES30.glClearColor(1, 1, 1, 1);
+
         /* On crée notre draw queue */
         this.taquin.initShuffle();
         this.initialiserDrawQueue();
@@ -136,6 +138,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // glClear rien de nouveau on vide le buffer de couleur et de profondeur */
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
+
+        GLES30.glClearColor(1, 1, 1, 1);
 
         /* on utilise une classe Matrix (similaire à glm) pour définir nos matrices P, V et M*/
 

@@ -12,4 +12,5 @@
     <string name="recommencer">Restart</string>
     <string name="gagne">You won !</string>
     <string name="perdu">You lost !</string>
+    <string name="solution_du_taquin">Solution</string>
 </resources>

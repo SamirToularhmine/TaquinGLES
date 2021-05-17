@@ -2,6 +2,7 @@ package fr.univ.taquingles;
 
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 /* Ce tutorial est issu d'un tutorial http://developer.android.com/training/graphics/opengl/index.html :
 openGLES.zip HelloOpenGLES20
@@ -151,7 +154,7 @@ public class OpenGLES20Activity extends Activity {
             imageSolution.setImageResource(R.drawable.taquin_33);
         }
 
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        /*int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
@@ -163,9 +166,12 @@ public class OpenGLES20Activity extends Activity {
             popupView.performClick();
             popupWindow.dismiss();
             return true;
-        });
+        });*/
 
-
+        new MaterialAlertDialogBuilder(this)
+                //.setView(imageSolution.getRootView())
+                .setView(popupView)
+                .show();
     }
 
     public void quitter(View view) {
@@ -185,8 +191,6 @@ public class OpenGLES20Activity extends Activity {
         if (counter == -1){
             this.chronometer.setBase(SystemClock.elapsedRealtime());
         }
-
-
 
         this.chronometer.start();
     }

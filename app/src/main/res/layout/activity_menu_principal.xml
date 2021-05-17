@@ -5,15 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MenuPrincipalActivity">
+    android:padding="20dp"
+    tools:context=".MenuPrincipalActivity"
+    >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="Taquin"
+            android:textSize="75dp"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/taille_text" />
+        android:textSize="20dp"
+        android:text="@string/taille_text"
+        android:layout_marginBottom="25dp"/>
 
 
     <LinearLayout
@@ -29,13 +46,6 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="3 x 3"
-                android:onClick="select33"/>
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -49,13 +59,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="4 x 4"
-                android:onClick="select44"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -71,14 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="5 x 5"
-                android:onClick="select55"/>
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -89,82 +84,80 @@
         </LinearLayout>
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/radiogroup_taille"
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="top"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:id="@+id/tabs">
 
-
-        <RadioButton
-            android:id="@+id/radioButton_33"
-            android:layout_width="0dp"
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-
-
+            android:text="3 x 3"
             />
 
-
-        <RadioButton
-            android:id="@+id/radioButton_44"
-            android:layout_width="0dp"
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <RadioButton
-            android:id="@+id/radioButton_55"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
+            android:text="4 x 4"
             />
 
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 x 5"
+            />
 
-    </RadioGroup>
+    </com.google.android.material.tabs.TabLayout>
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/niveau" />
 
-    <RadioGroup
-        android:id="@+id/radiogroup_niveau"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:orientation="horizontal">
 
-
-        <RadioButton
-            android:id="@+id/radioButton_facile"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/facile" />
+            android:layout_weight="0.3"
+            android:textAlignment="center"
+            android:text="@string/facile"/>
 
-        <RadioButton
-            android:id="@+id/radioButton_moyen"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/moyen" />
+            android:layout_weight="0.3"
+            android:textAlignment="center"
+            android:text="@string/moyen"/>
 
-        <RadioButton
-            android:id="@+id/radioButton_difficile"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/difficile" />
-    </RadioGroup>
+            android:layout_weight="0.3"
+            android:textAlignment="center"
+            android:text="@string/difficile"/>
+    </LinearLayout>
+
+    <com.google.android.material.slider.Slider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:valueFrom="0"
+        android:stepSize="1"
+        android:valueTo="2"
+        android:id="@+id/sliderNiveau"
+        android:layout_marginBottom="100dp"/>
 
     <Button
         android:id="@+id/commencer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:onClick="lancerJeu"
         android:text="@string/commencer" />
 </LinearLayout>
