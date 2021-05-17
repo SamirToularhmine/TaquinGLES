@@ -83,6 +83,8 @@ public class FormeParam {
         Matrix.scaleM(this.modelMatrix, 0, this.scale[0], this.scale[1], this.scale[2]);
     }
 
+    // Méthode permettant de démarrer 4 jobs qui s'éxécuteront respectivement à 1/4, 2/4, 3/4 et 4/4 du temps de clignotement.
+    // Ces jobs mette la couleur actuelle à blanc ou remette la couleur à celle définie initialement
     public void startBlinking(){
         this.blinkStart = System.currentTimeMillis();
         this.previousColor = this.couleur;

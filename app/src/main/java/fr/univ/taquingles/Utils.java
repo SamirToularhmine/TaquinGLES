@@ -71,4 +71,18 @@ public class Utils {
 
         return cb;
     }
+
+    // Permet de créer un shader et de le charger en retournant son id
+    public static int loadShader(int type, String shaderCode){
+
+        // create a vertex shader type (GLES30.GL_VERTEX_SHADER)
+        // or a fragment shader type (GLES30.GL_FRAGMENT_SHADER)
+        int shader = GLES30.glCreateShader(type);
+
+        // add the source code to the shader and compile it
+        GLES30.glShaderSource(shader, shaderCode);
+        GLES30.glCompileShader(shader);
+
+        return shader;
+    }
 }

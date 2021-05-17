@@ -17,26 +17,18 @@
 package fr.univ.taquingles;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import fr.univ.taquingles.taquin.Taquin;
 
-/* La classe MyGLSurfaceView avec en particulier la gestion des événements
-  et la création de l'objet renderer
-
+/*
+    La classe MyGLSurfaceView avec en particulier la gestion des événements
+    et la création de l'objet renderer
 */
-
-
-/* On va dessiner un carré qui peut se déplacer grace à une translation via l'écran tactile */
 
 public class MyGLSurfaceView extends GLSurfaceView {
 
@@ -63,8 +55,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
     }
 
     /* pour gérer la translation */
-    private float mPreviousX;
-    private float mPreviousY;
     private boolean condition = false;
     private int nbBlinking = 0;
 
@@ -96,7 +86,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         /* On teste si le point touché appartient au carré ou pas car on ne doit le déplacer que si ce point est dans le carré
         */
 
-
+        // Cette condition permet de bloquer le jeu si un élément clignotte
         if(this.nbBlinking == 0) {
             int test_square = this.mRenderer.checkPosition(x_opengl, y_opengl);
 
@@ -119,6 +109,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 }, 1000 / 4);
             }
 
+            // Si le taquin est résolu, on joue un son de victoire et on affiche la popup de victoire
             if(test_square == 2){
                 OpenGLES20Activity activity = (OpenGLES20Activity) this.getContext();
                 MediaPlayer music = MediaPlayer.create(activity, R.raw.victory_sound);
@@ -127,13 +118,11 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 activity.afficherPopup(R.string.gagne, true);
             }
 
+            // S'assure bien qu'aucun élément ne clignotte actuellement pour prendre en compte les intéractions
             if ((condition || test_square == 1) && nbBlinking == 0) {
 
                 switch (e.getAction()) {
-                    /* Lorsqu'on touche l'écran on mémorise juste le point */
                     case MotionEvent.ACTION_DOWN:
-                        mPreviousX = x;
-                        mPreviousY = y;
                         condition = true;
                         break;
                     case MotionEvent.ACTION_UP:
@@ -145,6 +134,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         return true;
     }
 
+    // Méthode permettant de redémarrer la partie avec la même configuration
     public void restartGame(){
         this.taquin.initShuffle();
         this.mRenderer.initialiserDrawQueue();

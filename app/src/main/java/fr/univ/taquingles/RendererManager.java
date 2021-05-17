@@ -29,6 +29,7 @@ import fr.univ.taquingles.taquin.Forme;
  */
 public class RendererManager {
 
+    // Code du vertex shader
     private static final String vertexShaderCode =
             "#version 300 es\n"+
             "uniform mat4 uMVPMatrix;\n"+
@@ -43,6 +44,7 @@ public class RendererManager {
             "passTexCoords = texCoords;\n"+
             "}\n";
 
+    // Code du fragment shader
     private static final String fragmentShaderCode =
             "#version 300 es\n"+
             "precision mediump float;\n" + // pour définir la taille d'un float
@@ -65,6 +67,7 @@ public class RendererManager {
             "}\n"+
             "}\n";
 
+    // Coordonnées de texture pour un carré
     private static final float[] quadTexCoords = new float[]{
             1.0f, 1.0f,
             1.0f, 0.0f,
@@ -112,6 +115,7 @@ public class RendererManager {
         this.formesVao.put(forme, new ArrayList<>());
     }
 
+    // Methode alimentant les différentes collections de la classe avec les formes disponibles
     public void init(){
         // Parcours de toutes les formes disponibles
         for(Map.Entry<Forme, AForme> entry : this.formes.entrySet()){
@@ -145,11 +149,11 @@ public class RendererManager {
             this.formesVao.get(entry.getKey()).add(tcb);
         }
 
-        /* Chargement des shaders */
-        int idVertexShader = MyGLRenderer.loadShader(
+        // Chargement des shaders
+        int idVertexShader = Utils.loadShader(
                 GLES30.GL_VERTEX_SHADER,
                 vertexShaderCode);
-        int idFragmentShader = MyGLRenderer.loadShader(
+        int idFragmentShader = Utils.loadShader(
                 GLES30.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
 
@@ -160,10 +164,12 @@ public class RendererManager {
         GLES30.glGetProgramiv(idProgram, GLES30.GL_LINK_STATUS, linkStatus,0);
     }
 
+    // Charge et crée une texture en fonction de son resourceId
     public void addTexture(Context context, int resourceId){
         this.textureHandle[0] = Utils.loadTexture(context, resourceId);
     }
 
+    // Méthode de draw principale
     public void draw(Pair<Forme, FormeParam> p, float[] mvpMatrix){
         GLES30.glUseProgram(this.idProgram);
 

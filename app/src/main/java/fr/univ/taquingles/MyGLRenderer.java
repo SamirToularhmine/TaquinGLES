@@ -18,13 +18,11 @@ package fr.univ.taquingles;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -36,7 +34,6 @@ import fr.univ.taquingles.formes.Losange;
 import fr.univ.taquingles.formes.Pentagone;
 import fr.univ.taquingles.formes.Square;
 import fr.univ.taquingles.formes.Triangle;
-import fr.univ.taquingles.taquin.Couleur;
 import fr.univ.taquingles.taquin.Directions;
 import fr.univ.taquingles.taquin.Forme;
 import fr.univ.taquingles.taquin.Objet;
@@ -74,14 +71,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.context = c;
     }
 
-    /* Première méthode équivalente à la fonction init en OpenGLSL */
+    // Première méthode équivalente à la fonction init en OpenGLSL
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 
         // la couleur du fond d'écran
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        // On ajoute les différentes formes disponibles
+        // On ajoute les différentes formes disponibles pour le taquin
         this.rendererManager.nouvelleForme(Forme.CARRE, new Square());
         this.rendererManager.nouvelleForme(Forme.TRIANGLE, new Triangle());
         this.rendererManager.nouvelleForme(Forme.LOSANGE, new Losange());
@@ -91,17 +88,21 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         /* On initialise le renderer manager avec toutes les formes qu'il contient */
         this.rendererManager.init();
 
+        // On active les textures
         GLES30.glEnable(GLES30.GL_TEXTURE_2D);
 
+        // On active la transparence et on donne une fonction pour ordonner les couches
         GLES30.glEnable(GLES20.GL_BLEND);
         GLES30.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
+        // On définit la couleur d'arrière plan à blanc
         GLES30.glClearColor(1, 1, 1, 1);
 
-        /* On crée notre draw queue */
+        // On mélange le taquin et on crée notre draw queue
         this.taquin.initShuffle();
         this.initialiserDrawQueue();
 
+        // On ajoute la texture choisie par l'utilisateur
         this.rendererManager.addTexture(context, R.drawable.board);
     }
 
@@ -110,6 +111,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         int tailleTableau = objets.length;
         float margin = 3.5f;
 
+        // En fonction de la taille du taquin, il faut espacer et agrandir plus ou moins les formes
         if(tailleTableau == 4){
             this.scale = 2;
             margin = 4.5f;
@@ -121,8 +123,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         }
 
         this.drawQueue.clear();
+
+        // On ajoute le carré représentant le plateau
         this.drawQueue.add(Pair.create(Forme.CARRE, new FormeParam(new float[]{0, 0, 0}, new float[]{0, 0, 0}, new float[]{10, 10, 1}, R.drawable.board, -1, -1, context)));
 
+        // On y place les différentes formes à l'intérieur en prenant en compte leur couleur, leur position, leur rotation, leur scale
         for(int i = 0; i < objets.length; i++){
             for(int j = 0; j < objets[0].length; j++){
                 Objet o = objets[i][j];
@@ -138,36 +143,20 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 unused) {
         float[] scratch = new float[16]; // pour stocker une matrice
 
-        // glClear rien de nouveau on vide le buffer de couleur et de profondeur */
+        // Nettoyage du buffer de couleur et de profondeur
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
-
         GLES30.glClearColor(1, 1, 1, 1);
 
-        /* on utilise une classe Matrix (similaire à glm) pour définir nos matrices P, V et M*/
-
-        /* Pour le moment on va utiliser une projection orthographique
-           donc View = Identity
-         */
-
-        /*pour positionner la caméra mais ici on n'en a pas besoin*/
-
-        //Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        // On calcule la MVP pour chaque forme de la drawQueue.
+        // Les matrices de view et de projection ne changent pas, on ne les recalculent pas pour chaque objet
         Matrix.setIdentityM(mViewMatrix,0);
-
-        // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         for(Pair<Forme, FormeParam> p : this.drawQueue){
             Matrix.setIdentityM(scratch, 0);
-
-            //Log.d("Renderer : ", p.first.name() + " -> Couleur : " + p.second.getCouleur().name());
-
-            /* scratch est la matrice PxVxM finale */
             Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, p.second.getModelMatrix(), 0);
 
-            /* on appelle la méthode dessin du carré élémentaire */
-            //mSquare.draw(scratch);
-
+            // On affiche l'objet à l'écran.
             this.rendererManager.draw(p, scratch);
         }
 
@@ -176,31 +165,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     /* équivalent au Reshape en OpenGLSL */
     @Override
     public void onSurfaceChanged(GL10 unused, int width, int height) {
-        /* ici on aurait pu se passer de cette méthode et déclarer
-        la projection qu'à la création de la surface !!
-         */
+        // On définit le viewport et une projection orthographique. Le tout est relatif à la taille de l'écran
         float viewX = width / 100.0f;
         float viewY = height / 100.0f;
         GLES30.glViewport(0, 0, width, height);
         Matrix.orthoM(mProjectionMatrix, 0,-viewX, viewX, -viewY, viewY, 1.0f, -1.0f);
     }
 
-    /* La gestion des shaders ... */
-    public static int loadShader(int type, String shaderCode){
-
-        // create a vertex shader type (GLES30.GL_VERTEX_SHADER)
-        // or a fragment shader type (GLES30.GL_FRAGMENT_SHADER)
-        int shader = GLES30.glCreateShader(type);
-
-        // add the source code to the shader and compile it
-        GLES30.glShaderSource(shader, shaderCode);
-        GLES30.glCompileShader(shader);
-
-        return shader;
-    }
-
-    /* Les méthodes nécessaires à la manipulation de la position finale du carré */
-   public int checkPosition(float x, float y) {
+    // Méthode permttant de regarder dans les élements afficher quel est celui qui a été cliqué
+    // On fait bouger l'objet concerné ou en le fait clignoter si le déplacement est impossible
+    // Tous les objets bougent si le taquin est résolu
+    public int checkPosition(float x, float y) {
        for (Pair<Forme, FormeParam> current : this.drawQueue) {
            float[] pos = current.second.getPosition();
            if (((x < pos[0] + (1.0 * this.scale)) && (x > pos[0] - (1.0 * this.scale)) && (y < pos[1] + (1.0 * this.scale)) && (y > pos[1] - (1.0 * this.scale)))) {
