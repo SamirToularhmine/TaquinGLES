@@ -30,7 +30,7 @@
                     android:textAlignment="center"
                     android:gravity="center"
                     android:text="Taquin"
-                    android:textSize="75dp"/>
+                    android:textSize="50dp"/>
             </LinearLayout>
 
             <TextView
