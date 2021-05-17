@@ -42,3 +42,10 @@ Pour déplacer une pièce, il est également possible de laisser son doigt enfon
 Quand le taquin est résolu, les pièces du plateau clignotent en blanc 3 fois et une popup apparait indiquant les résultats de l'utilisateur. Il lui est alors proposé de rejouer sur la même configuration ou alors de revenir au menu. Également, un son de victoire est joué.
 
 Si le temps est écoulé, une popup similaire s'affiche proposant les mêmes actions. Cette fois, un son de défaite est joué.
+
+L'application est traduite en trois langues différentes :
+- Le français
+- L'anglais
+- Le grec
+
+La langue change en fonction de celle du système.
