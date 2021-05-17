@@ -11,7 +11,7 @@ Afin de lancer une partie, il suffit de démarrer l'application. Il est alors pr
 - 4x4
 - 5x5
 
-Il est ensuite proposé à l'utilisateur de choisir son niveau de difficulté. Celui ci correspond à la limite de temps imposée pour résoudre le taquin. Il y a trois difficultés proposées :
+Il est ensuite proposé à l'utilisateur de choisir son niveau de difficulté. Celui-ci correspond à la limite de temps imposée pour résoudre le taquin. Il y a trois difficultés proposées :
 - Facile : temps illimité pour résoudre le taquin
 - Intermédiaire : 5 minutes pour résoudre le taquin
 - Difficile : 1 minute pour résoudre le taquin
