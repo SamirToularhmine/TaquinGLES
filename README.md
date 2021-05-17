@@ -2,6 +2,18 @@
 
 Auteurs : NEONAKIS Ionas et TOULARHMINE Samir
 
+# Notes diverses
+
+Si le dossier src ne suffit pas, le projet est disponible à l'adresse : https://github.com/SamirToularhmine/TaquinGLES
+
+Il sera alors possible de l'importer directement dans Android Studio.
+
+Le projet s'exécute avec la version minimale du SDK : 24.
+
+# Screenshots de l'application
+
+TODO
+
 --- 
 # Guide d'utilisation :
 
