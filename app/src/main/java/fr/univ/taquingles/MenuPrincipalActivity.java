@@ -56,7 +56,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         if (idSelectedNiveau == 1){
             counter = 60 * 5; // 5 minutes
         }else if(idSelectedNiveau == 2){
-            counter = 5;
+            counter = 60;
         }
 
         i.putExtra("COUNTER", counter);
