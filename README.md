@@ -33,7 +33,11 @@ En dessous de ce chronomètre se trouve un compteur de coups.
 
 Enfin, on y trouve un bouton "Fermer" mettant fin à la partie en cours et revenant ainsi au menu.
 
-La vue principale contient le plateau de jeu. Pour déplacer une pièce, il suffit de cliquer sur la case correspondante. Si la case est adjacente à la case vide, alors la pièce est déplacée. Dans le cas contraire, la pièce clignotera en blanc 3 fois en faisant vibrer le téléphone de l'utilisateur pour lui indiquer que le déplacement est impossible.
+La vue principale contient le plateau de jeu. 
+
+Pour déplacer une pièce, il suffit de cliquer sur la case correspondante. Si la case est adjacente à la case vide, alors la pièce est déplacée. Dans le cas contraire, la pièce clignotera en blanc 3 fois en faisant vibrer le téléphone de l'utilisateur pour lui indiquer que le déplacement est impossible.
+
+Pour déplacer une pièce, il est également possible de laisser son doigt enfoncé sur la case vide et le glisser dans la direction voulue.
 
 Quand le taquin est résolu, les pièces du plateau clignotent en blanc 3 fois et une popup apparait indiquant les résultats de l'utilisateur. Il lui est alors proposé de rejouer sur la même configuration ou alors de revenir au menu. Également, un son de victoire est joué.
 
