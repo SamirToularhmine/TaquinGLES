@@ -12,11 +12,11 @@ Le projet s'exécute avec la version minimale du SDK : 24.
 
 # Screenshots de l'application
 
-![](screenshots/1.jpg)
-![](screenshots/2.jpg)
-![](screenshots/3.jpg)
-![](screenshots/4.jpg)
-![](screenshots/5.jpg)
+<img src="screenshots/1.jpg" alt="drawing" style="width:100px;"/>
+<img src="screenshots/2.jpg" alt="drawing" style="width:100px;"/>
+<img src="screenshots/3.jpg" alt="drawing" style="width:100px;"/>
+<img src="screenshots/4.jpg" alt="drawing" style="width:100px;"/>
+<img src="screenshots/5.jpg" alt="drawing" style="width:100px;"/>
 
 --- 
 # Guide d'utilisation :
