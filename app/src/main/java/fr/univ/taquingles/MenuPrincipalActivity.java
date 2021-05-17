@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.google.android.material.slider.Slider;
@@ -82,7 +81,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         if (idSelectedNiveau == 1){
             counter = 60 * 5; // 5 minutes
         }else if(idSelectedNiveau == 2){
-            counter = 60;
+            counter = 60; // 1 minute
         }
 
         i.putExtra("COUNTER", counter);

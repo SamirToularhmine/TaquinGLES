@@ -209,7 +209,7 @@ public class RendererManager {
         GLES30.glVertexAttribPointer(
                 idColors, COULEURS_PER_VERTEX,
                 GLES30.GL_FLOAT, false,
-                couleurStride, Utils.getCouleurBuffer(Utils.getCouleurArray(p.second.getCouleur().getCouleurArray(), cap), cap));
+                couleurStride, Utils.getCouleurBuffer(Utils.getCouleurArray(p.second.getCouleur().getCouleurArray(), cap)));
 
         GLES30.glVertexAttribPointer(
                 idTexCoords, 2,

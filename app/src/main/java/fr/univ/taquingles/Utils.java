@@ -61,8 +61,7 @@ public class Utils {
         return couleurs;
     }
 
-    public static FloatBuffer getCouleurBuffer(float[] couleurs, int n){
-
+    public static FloatBuffer getCouleurBuffer(float[] couleurs){
         ByteBuffer bc = ByteBuffer.allocateDirect(couleurs.length * 4);
         bc.order(ByteOrder.nativeOrder());
         FloatBuffer cb = bc.asFloatBuffer();

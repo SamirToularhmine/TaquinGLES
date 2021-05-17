@@ -1,10 +1,6 @@
 package fr.univ.taquingles.taquin;
 
 
-import android.util.Log;
-
-import fr.univ.taquingles.exceptions.DeplacementImpossibleException;
-
 /**
  * Classe pour la gestion du taquin
  */

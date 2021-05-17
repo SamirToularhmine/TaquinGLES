@@ -22,7 +22,6 @@ import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.view.MotionEvent;
 
-
 import fr.univ.taquingles.taquin.Taquin;
 
 /*
@@ -64,15 +63,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
         // Les coordonnées du point touché sur l'écran
         float x = e.getX();
         float y = e.getY();
-
-        // la taille de l'écran en pixels
-        float screen_x = getWidth();
-        float screen_y = getHeight();
-
-        /* accès aux paramètres du rendu (cf MyGLRenderer.java)
-        soit la position courante du centre du carré
-         */
-        float[] pos = new float[] {0, 0};
 
         /* Conversion des coordonnées pixel en coordonnées OpenGL
         Attention l'axe x est inversé par rapport à OpenGLSL
@@ -130,7 +120,6 @@ public class MyGLSurfaceView extends GLSurfaceView {
                 }
             }
         }
-
         return true;
     }
 
