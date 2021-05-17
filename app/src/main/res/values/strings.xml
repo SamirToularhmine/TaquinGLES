@@ -12,4 +12,7 @@
     <string name="perdu">Vous avez perdu !</string>
     <string name="gagne">Vous avez gagné !</string>
     <string name="solution_du_taquin">Solution du taquin</string>
+    <string name="choix_du_plateau">Choix du plateau</string>
+    <string name="defaut">Défaut</string>
+    <string name="vert">Vert</string>
 </resources>

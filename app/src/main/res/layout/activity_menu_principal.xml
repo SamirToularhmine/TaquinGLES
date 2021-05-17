@@ -154,6 +154,19 @@
         android:id="@+id/sliderNiveau"
         android:layout_marginBottom="20dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/choix_du_plateau" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown" />
+
     <Button
         android:id="@+id/commencer"
         android:layout_width="match_parent"
