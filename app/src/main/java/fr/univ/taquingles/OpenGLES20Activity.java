@@ -4,6 +4,7 @@ package fr.univ.taquingles;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.app.Activity;
@@ -86,6 +87,8 @@ public class OpenGLES20Activity extends Activity {
         this.chronometer.setBase(SystemClock.elapsedRealtime() + counter * 1000 + 1000) ;
         this.chronometer.setOnChronometerTickListener(c -> {
             if (chronometer.getBase() <= SystemClock.elapsedRealtime()) {
+                MediaPlayer music = MediaPlayer.create(this, R.raw.lose);
+                music.start();
                 afficherPopup(R.string.perdu, false);
             }
         });
