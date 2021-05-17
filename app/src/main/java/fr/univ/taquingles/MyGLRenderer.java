@@ -101,7 +101,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         this.rendererManager.addTexture(context, R.drawable.board);
     }
 
-    private void initialiserDrawQueue() {
+    public void initialiserDrawQueue() {
         Objet[][] objets = this.taquin.getTableau();
         int tailleTableau = objets.length;
         float margin = 3.5f;
@@ -228,7 +228,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
                        return 1;
                    }else{
-                       Log.d("Déplacement", "Déplacement impossible");
                        current.second.startBlinking();
                        return -1;
                    }

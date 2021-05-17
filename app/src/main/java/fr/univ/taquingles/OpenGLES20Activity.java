@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ openGLES.zip HelloOpenGLES20
 public class OpenGLES20Activity extends Activity {
 
     // le conteneur View pour faire du rendu OpenGL
-    private GLSurfaceView mGLView;
+    private MyGLSurfaceView mGLView;
     private int counter;
     private int tempsTotal;
     private Chronometer chronometer;
@@ -54,10 +55,11 @@ public class OpenGLES20Activity extends Activity {
 
         FrameLayout f = findViewById(R.id.gl_frame);
         f.addView(this.mGLView);
+        this.chronometer = findViewById(R.id.chrono);
+
 
         this.nbCoups = 0;
         this.tempsTotal = -1;
-        this.chronometer = findViewById(R.id.chrono);
 
         this.counter = i.getIntExtra("COUNTER", -1);
         if (this.counter == -1) {
@@ -70,7 +72,6 @@ public class OpenGLES20Activity extends Activity {
 
         Button closeButton = findViewById(R.id.close);
         closeButton.setOnClickListener(l -> finish());
-
 
     }
 
@@ -92,6 +93,8 @@ public class OpenGLES20Activity extends Activity {
                 this.tempsTotal++;
             }
         });
+        String text = this.getTemps(counter);
+        this.chronometer.setText(text);
     }
 
     public void afficherPopup(int texte, boolean gagne) {
@@ -101,9 +104,6 @@ public class OpenGLES20Activity extends Activity {
         View popupView = inflater.inflate(R.layout.popup, null);
 
         TextView temps = popupView.findViewById(R.id.temps);
-        TextView coups = popupView.findViewById(R.id.coups);
-        String coupsTexte = "Nombre de coups : " + nbCoups;
-        coups.setText(coupsTexte);
         String texteTemps;
 
         if (gagne){
@@ -113,11 +113,25 @@ public class OpenGLES20Activity extends Activity {
         }
         temps.setText(texteTemps );
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setView(popupView);
-        alertDialogBuilder.setTitle(texte);
-        alertDialogBuilder.setCancelable(false);
-        alertDialogBuilder.show();
+        TextView coups = popupView.findViewById(R.id.coups);
+        TextView coupsTitre = findViewById(R.id.coupsTitre);
+        String coupsTexte = "Nombre de coups : " + coupsTitre.getText();
+        coups.setText(coupsTexte);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setView(popupView);
+        alertDialog.setTitle(texte);
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+        Button button = popupView.findViewById(R.id.recommencer);
+        button.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            this.restartGame();
+            this.mGLView.restartGame();
+
+        });
+
     }
 
 
@@ -159,19 +173,23 @@ public class OpenGLES20Activity extends Activity {
         finish();
     }
 
-    public void recommencer(View view) {
+    public void restartGame() {
         this.nbCoups = 0;
-        this.tempsTotal = -1;
-        this.chronometer = findViewById(R.id.chrono);
+        this.tempsTotal = 0;
 
-        if (this.counter == -1) {
-            this.initChrono();
-        } else {
-            this.initTimer();
+        TextView coupsTitre = findViewById(R.id.coupsTitre);
+        coupsTitre.setText("0");
+
+        Intent i = getIntent();
+        this.counter = i.getIntExtra("COUNTER", -1);
+
+        if (counter == -1){
+            this.chronometer.setBase(SystemClock.elapsedRealtime());
         }
 
+
+
         this.chronometer.start();
-        finish();
     }
 
     public void augmenterCoup(){

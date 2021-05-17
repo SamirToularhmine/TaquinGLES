@@ -42,6 +42,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
     /* MyGLRenderer va implémenter les méthodes de cette interface */
 
     private final MyGLRenderer mRenderer;
+    private Taquin taquin;
 
     public MyGLSurfaceView(Context context, int taille) {
         super(context);
@@ -52,8 +53,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         // Création du renderer qui va être lié au conteneur View créé
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
-
-        this.mRenderer.init(new Taquin(taille), context);
+        this.taquin =  new Taquin(taille);
+        this.mRenderer.init(taquin, context);
 
         // Option pour indiquer qu'on redessine uniquement si les données changent
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -138,5 +139,12 @@ public class MyGLSurfaceView extends GLSurfaceView {
         }
 
         return true;
+    }
+
+    public void restartGame(){
+        this.taquin.initShuffle();
+        this.mRenderer.initialiserDrawQueue();
+        this.requestRender();
+
     }
 }
