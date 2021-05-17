@@ -13,4 +13,7 @@
     <string name="gagne">You won !</string>
     <string name="perdu">You lost !</string>
     <string name="solution_du_taquin">Solution</string>
+    <string name="choix_du_plateau">Select the board</string>
+    <string name="defaut">Default</string>
+    <string name="vert">Green</string>
 </resources>

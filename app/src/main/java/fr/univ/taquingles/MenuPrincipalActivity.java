@@ -31,6 +31,12 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             }
             return "1 minute";
         });
+
+        Spinner spinner = findViewById(R.id.spinner);
+
+        String [] valeurs = new String[]{getString(R.string.defaut), getString(R.string.vert), "Covid-19"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, valeurs);
+        spinner.setAdapter(adapter);
     }
 
     public void lancerJeu(View view) {
