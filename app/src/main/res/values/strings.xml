@@ -3,7 +3,7 @@
     <string name="commencer">Commencer</string>
     <string name="taille_text">Choisissez la taille du taquin</string>
     <string name="facile">Facile</string>
-    <string name="moyen">Moyen</string>
+    <string name="moyen">Intermédiaire</string>
     <string name="difficile">Difficile</string>
     <string name="niveau">Limite de temps</string>
     <string name="solution">Solution</string>
