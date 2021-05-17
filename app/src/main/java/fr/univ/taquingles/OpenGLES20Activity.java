@@ -174,13 +174,13 @@ public class OpenGLES20Activity extends Activity {
 
     public void restartGame() {
         this.nbCoups = 0;
-        this.tempsTotal = -1;
+        this.tempsTotal = 0;
 
         TextView coupsTitre = findViewById(R.id.coupsTitre);
         coupsTitre.setText("0");
 
         Intent i = getIntent();
-        this.counter = i.getIntExtra("COUNTER", -1);
+        this.counter = i.getIntExtra("COUNTER", 0);
 
         if (counter == -1){
             this.chronometer.setBase(SystemClock.elapsedRealtime());
