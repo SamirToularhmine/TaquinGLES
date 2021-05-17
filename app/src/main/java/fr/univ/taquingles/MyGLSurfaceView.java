@@ -18,6 +18,7 @@ package fr.univ.taquingles;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.Log;
@@ -120,6 +121,9 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
             if(test_square == 2){
                 OpenGLES20Activity activity = (OpenGLES20Activity) this.getContext();
+                MediaPlayer music = MediaPlayer.create(activity, R.raw.victory_sound);
+                music.seekTo(1000);
+                music.start();
                 activity.afficherPopup(R.string.gagne, true);
             }
 
