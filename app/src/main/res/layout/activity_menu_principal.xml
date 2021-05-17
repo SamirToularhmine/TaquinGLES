@@ -152,7 +152,7 @@
         android:stepSize="1"
         android:valueTo="2"
         android:id="@+id/sliderNiveau"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="20dp"/>
 
     <Button
         android:id="@+id/commencer"
