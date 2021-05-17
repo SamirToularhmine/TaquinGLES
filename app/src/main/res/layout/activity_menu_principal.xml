@@ -160,4 +160,5 @@
         android:layout_height="wrap_content"
         android:onClick="lancerJeu"
         android:text="@string/commencer" />
+
 </LinearLayout>
