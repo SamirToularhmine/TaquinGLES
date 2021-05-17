@@ -31,7 +31,6 @@ public class OpenGLES20Activity extends Activity {
     // le conteneur View pour faire du rendu OpenGL
     private MyGLSurfaceView mGLView;
     private int counter;
-    private int tempsTotal;
     private Chronometer chronometer;
     private int nbCoups;
     private int taille;
@@ -80,7 +79,6 @@ public class OpenGLES20Activity extends Activity {
 
     private void initChrono() {
         this.chronometer.setCountDown(false);
-
     }
 
     private void initTimer() {
