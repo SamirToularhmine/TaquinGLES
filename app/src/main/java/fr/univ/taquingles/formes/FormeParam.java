@@ -4,7 +4,6 @@ import android.content.Context;
 import android.opengl.Matrix;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
 
 

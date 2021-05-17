@@ -125,7 +125,6 @@ public class OpenGLES20Activity extends Activity {
             this.mGLView.restartGame();
 
         });
-
     }
 
     /**
@@ -149,7 +148,6 @@ public class OpenGLES20Activity extends Activity {
         }
 
         new MaterialAlertDialogBuilder(this)
-                //.setView(imageSolution.getRootView())
                 .setView(popupView)
                 .show();
     }

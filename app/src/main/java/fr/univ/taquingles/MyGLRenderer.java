@@ -42,9 +42,6 @@ import fr.univ.taquingles.taquin.Taquin;
 /* MyGLRenderer implémente l'interface générique GLSurfaceView.Renderer */
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
-
-    private static final String TAG = "MyGLRenderer";
-
     private RendererManager rendererManager;
     private List<Pair<Forme, FormeParam>> drawQueue;
     private Taquin taquin;
@@ -55,7 +52,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
-    private final float[] mModelMatrix = new float[16];
 
     private float scale;
 
@@ -179,7 +175,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
        for (Pair<Forme, FormeParam> current : this.drawQueue) {
            float[] pos = current.second.getPosition();
            if (((x < pos[0] + (1.0 * this.scale)) && (x > pos[0] - (1.0 * this.scale)) && (y < pos[1] + (1.0 * this.scale)) && (y > pos[1] - (1.0 * this.scale)))) {
-               //current.second.setCouleur(Couleur.BLANC);
                if(current.second.getPosI() != -1 && current.second.getPosJ() != -1){
                    int i = current.second.getPosI();
                    int j = current.second.getPosJ();

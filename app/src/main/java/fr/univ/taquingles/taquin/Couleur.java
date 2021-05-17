@@ -1,9 +1,5 @@
 package fr.univ.taquingles.taquin;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
 public enum Couleur {
     ROUGE(new float[]{1.0f, 0.0f, 0.0f, 1.0f}),
     VERT(new float[]{0.0f, 1.0f, 0.0f, 1.0f}),
@@ -19,7 +15,7 @@ public enum Couleur {
         return this.couleur;
     }
 
-    private Couleur(float[] rgba) {
+    Couleur(float[] rgba) {
         this.couleur = rgba;
     }
 }

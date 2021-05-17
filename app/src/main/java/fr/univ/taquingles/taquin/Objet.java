@@ -53,6 +53,4 @@ public class Objet {
     public boolean isPlaceCorrecte(){
         return this.initialX == this.x && this.initialY == this.y;
     }
-
-
 }
