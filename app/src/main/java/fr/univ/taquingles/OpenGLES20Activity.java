@@ -2,23 +2,18 @@ package fr.univ.taquingles;
 
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -44,14 +39,6 @@ public class OpenGLES20Activity extends Activity {
         /* Définition de View pour cette activité */
         setContentView(R.layout.activity_jeu);
 
-        /* Création de View et association à Activity
-           MyGLSurfaceView : classe à implémenter et en particulier la partie renderer */
-
-        /* Pour le plein écran */
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //getWindow().setFlags(
-        //WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        //WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent i = getIntent();
         this.taille = i.getIntExtra("TAILLE", 3);
         this.mGLView = new MyGLSurfaceView(this, this.taille);
@@ -59,7 +46,6 @@ public class OpenGLES20Activity extends Activity {
         FrameLayout f = findViewById(R.id.gl_frame);
         f.addView(this.mGLView);
         this.chronometer = findViewById(R.id.chrono);
-
 
         this.nbCoups = 0;
 
@@ -78,10 +64,17 @@ public class OpenGLES20Activity extends Activity {
 
     }
 
+    /**
+     * Méthode qui déclare le chonometre comme un vrai chronomètre
+     */
     private void initChrono() {
         this.chronometer.setCountDown(false);
     }
 
+    /**
+     * Méthode qui déclare le chronomètre comme un compte à rebours
+     * Et définit les actions à effectuer lors que le temps arrive à 0
+     */
     private void initTimer() {
         this.chronometer.setCountDown(true);
         this.chronometer.setBase(SystemClock.elapsedRealtime() + counter * 1000 + 1000) ;
@@ -94,6 +87,11 @@ public class OpenGLES20Activity extends Activity {
         });
     }
 
+    /**
+     * Méthode qui affiche la popup en fin de jeu
+     * @param texte est le texte à afficher
+     * @param gagne booléen pour savoir si la partie est gagnée ou perdue
+     */
     public void afficherPopup(int texte, boolean gagne) {
         this.chronometer.stop();
         int tempsTotalz  = (int) ((SystemClock.elapsedRealtime() - this.tempsDebut) / 1000);
@@ -130,6 +128,9 @@ public class OpenGLES20Activity extends Activity {
 
     }
 
+    /**
+     * Méthode qui crée une popup qui affiche la solution du taquin
+     */
     public void afficherSolution(View view) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
@@ -153,10 +154,16 @@ public class OpenGLES20Activity extends Activity {
                 .show();
     }
 
+    /**
+     * Méthode pour arreter l'activity
+     */
     public void quitter(View view) {
         finish();
     }
 
+    /**
+     * Initialise tous les compteurs pour relancer une partie
+     */
     public void restartGame() {
         this.nbCoups = 0;
 
@@ -172,12 +179,13 @@ public class OpenGLES20Activity extends Activity {
             this.chronometer.setBase(SystemClock.elapsedRealtime() + counter * 1000 + 1000) ;
         }
 
-
-
         this.chronometer.start();
         this.tempsDebut = SystemClock.elapsedRealtime();
     }
 
+    /**
+     * Augmente le nombre de coups et affiche le nombre de coups
+     */
     public void augmenterCoup() {
         this.nbCoups++;
         TextView coupsTitre = findViewById(R.id.coupsTitre);
@@ -185,6 +193,11 @@ public class OpenGLES20Activity extends Activity {
         coupsTitre.setText(coupsTexte);
     }
 
+    /**
+     * Retourne le temps au format mm:ss
+     * @param temps en secondes
+     * @return string dans le bon format
+     */
     private String getTemps(int temps) {
         String secondes = String.valueOf(temps % 60);
         if (secondes.length() == 1) {

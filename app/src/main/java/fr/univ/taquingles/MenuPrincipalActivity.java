@@ -39,6 +39,10 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
+
+    /**
+     * Lance le jeu en mettant dans un intent toutes les données choisies par l'utilisateur
+     */
     public void lancerJeu(View view) {
         Intent i = new Intent(this, OpenGLES20Activity.class);
 
