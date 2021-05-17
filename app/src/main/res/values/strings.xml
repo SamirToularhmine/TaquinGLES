@@ -5,7 +5,7 @@
     <string name="facile">Facile</string>
     <string name="moyen">Moyen</string>
     <string name="difficile">Difficile</string>
-    <string name="niveau">Choisissez votre niveau du difficulté</string>
+    <string name="niveau">Limite de temps</string>
     <string name="solution">Solution</string>
     <string name="menu">Menu</string>
     <string name="recommencer">Recommencer</string>
