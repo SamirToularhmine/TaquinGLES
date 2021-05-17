@@ -6,6 +6,8 @@ Remarque : si le dossier src ne suffit pas, le projet est disponible à l'adress
 
 Il sera alors possible de l'importer directement dans Android Studio.
 
+Le projet s'exécute avec la version minimale du SDK : 24.
+
 --- 
 # Guide d'utilisation :
 
